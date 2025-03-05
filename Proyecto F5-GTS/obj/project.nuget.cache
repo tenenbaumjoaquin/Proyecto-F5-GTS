@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "OvW7lw3yPLc=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Frida\\source\\repos\\Proyecto F5-GTS\\Proyecto F5-GTS\\Proyecto F5-GTS.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Frida\\.nuget\\packages\\exceldatareader\\3.7.0\\exceldatareader.3.7.0.nupkg.sha512",
+    "C:\\Users\\Frida\\.nuget\\packages\\exceldatareader.dataset\\3.7.0\\exceldatareader.dataset.3.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}
