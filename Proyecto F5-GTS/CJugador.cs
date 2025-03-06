@@ -25,6 +25,7 @@ namespace Proyecto_F5_GTS
         public string NOMBRE { get => Nombre ; set => Nombre = value; }
         public string POSICION { get => Posicion; set => Posicion = value; }
         public string CALIFICACION { get => Calificacion; set => Calificacion = value; }
+        public (string Nombre, int Puntuacion)[] STATS => Stats;
 
         //Constructor sin parametrizar
         public CJugador()
@@ -53,7 +54,7 @@ namespace Proyecto_F5_GTS
         {
             this.NOMBRE = nombre;
         }
-        //Constructor totalmente parametrizado
+        //Constructor totalmente parametrizado (UTILIZADO PARA POBLAR LA LISTA CUANDO SE CARGA DESDE EL ARCHIVO)
         public CJugador (int id, string nombre, string posicion, string calificacion, (string Nombre, int Puntuacion) [] stats )
         {
             this.ID = id;
@@ -158,6 +159,20 @@ namespace Proyecto_F5_GTS
                 this.CALIFICACION = "D";
             else
                 this.CALIFICACION = "F";
+        }
+
+        public string darDatos()
+        {
+            // Construimos la información básica del jugador
+            string datos = $"\n\nID: {ID}\nNombre: {NOMBRE}\nPosicion: {POSICION}\nCalificacion: {CALIFICACION}\n";
+
+            // Agregamos las estadísticas
+            datos += "Estadísticas:\n";
+            foreach (var stat in STATS)
+            {
+                datos += $"- {stat.Nombre}: {stat.Puntuacion}\n";
+            }
+            return datos;
         }
     }
 }
