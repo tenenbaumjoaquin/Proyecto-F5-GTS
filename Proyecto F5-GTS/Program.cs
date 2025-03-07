@@ -14,68 +14,79 @@ namespace Proyecto_F5_GTS
         static void Main(string[] args)
         {
             List<CJugador> listaJugadores = new List<CJugador>();
+            cargarXML(listaJugadores);
             int opcion;
-            string dni, nombre, apellido;
             bool resultadoOperacion = false;
             opcion = Menu.mostrarMenu();
-            while (opcion != 9)
+            while (opcion != 3)
             {
                 switch (opcion)
                 {
                     case 1:
-                        cargarDesdeArchivoXML(listaJugadores);
-                        break;
-                    case 2:
-                        if (mostrarListado(listaJugadores) != "")
+                        if( mostrarListado(listaJugadores) != "")
                         {
                             Console.WriteLine(mostrarListado(listaJugadores));
-                            Menu.mostrarMensaje("Lista de empleados desplegada.");
+                            Menu.mostrarMensaje("Lista desplegada.");
                         }
                         else
                         {
                             Menu.mostrarMensaje("Lista vacia.");
                         }
                         break;
+                    case 2:
+                        resultadoOperacion = crearJugador(listaJugadores);
+                        if (resultadoOperacion)
+                        {
+                            Menu.mostrarMensaje("Jugador creado con exito.");
+                        }
+                        break;
                 }
                 opcion = Menu.mostrarMenu();
             }
+            guardarEnXML(listaJugadores);
             Menu.mostrarMensaje("\tHasta la proxima.");
         }
-    }
 
-    public static void cargarDesdeArchivoXML(List<CJugador> listaJugadores)
-    {
-        string resultado = Controlador.leerXML(Menu.leerString("\tIngrese el nombre del archivo:"), listaJugadores);
-        if (resultado == "ok")
+        public static bool crearJugador(List<CJugador> listaJugadores)
         {
-            Menu.mostrarMensaje("\tArchivo leido con exito.");
+            string nombre = Menu.leerString("Ingrese el nombre del jugador: ") ;
+            return Controlador.crearJugador(nombre, listaJugadores);
         }
-        else
-        {
-            Menu.mostrarMensaje($"\tFallo lectura del archivo. Error: {resultado} ");
-        }
-    }
 
-    public static void guardarEnXML(List<CJugador> listaJugadores)
-    {
-        string resultado = Controlador.guardarEnXML(Menu.leerString("\tIngrese el nombre del archivo a guardar"), listaJugadores);
-        if (resultado == "ok")
+        public static void cargarXML( List<CJugador> listaJugadores)
         {
-            Menu.mostrarMensaje("\tArchivo guardado con exito.");
+            string resultado = Controlador.leerXML("playerList.xml", listaJugadores);
+            if (resultado == "ok")
+            {
+                Menu.mostrarMensaje("Archivo cargado.");
+            }
+            else
+            {
+                Menu.mostrarMensaje("Error al cargar archivo.");
+            }
         }
-        else
-        {
-            Menu.mostrarMensaje("\tNo se pudo guardar. Error: " + resultado);
-        }
-    }
 
-    public static string mostrarListado(List<CJugador> listaJugadores)
-    {
-        string lista = "";
-        foreach (CJugador jugador in listaJugadores)
+        public static void guardarEnXML(List<CJugador> listaJugadores)
         {
-            lista += jugador.darDatos();
+            string resultado = Controlador.guardarEnXML("playerList.xml", listaJugadores);
+            if (resultado == "ok")
+            {
+                Menu.mostrarMensaje("\tArchivo guardado con exito.");
+            }
+            else
+            {
+                Menu.mostrarMensaje("\tNo se pudo guardar. Error: " + resultado);
+            }
         }
-        return lista;
+
+        public static string mostrarListado(List<CJugador> listaJugadores)
+        {
+            string lista = "";
+            foreach (CJugador jugador in listaJugadores)
+            {
+                lista += jugador.darDatos();
+            }
+            return lista;
+        }
     }
 }

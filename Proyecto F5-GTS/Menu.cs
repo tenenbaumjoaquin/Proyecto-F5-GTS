@@ -18,6 +18,7 @@ namespace Proyecto_F5_GTS
             Console.WriteLine("\t***********************************************");
             Console.WriteLine("\n\t[1] Listar Jugadores.");
             Console.WriteLine("\n\t[2] Crear Jugador.");
+            Console.WriteLine("\n\t[3] Salir y guardar.");
 
             return pedirDatoMenu();
         }
@@ -26,14 +27,14 @@ namespace Proyecto_F5_GTS
         public static int pedirDatoMenu()
         {
             int devolucion;
-            Console.WriteLine("\tIngrese una opcion entre 1 y 9");
+            Console.WriteLine("\n\tIngrese una opcion entre 1 y 3");
             do
             {
-                if (!int.TryParse(Console.ReadLine(), out devolucion) || devolucion < 1 || devolucion > 9)
+                if (!int.TryParse(Console.ReadLine(), out devolucion) || devolucion < 1 || devolucion > 3)
                 {
-                    Console.WriteLine("\tIngrese una opcion entre 1 y 9.");
+                    Console.WriteLine("\tIngrese una opcion entre 1 y 3.");
                 }
-            } while (devolucion < 1 || devolucion > 9);
+            } while (devolucion < 1 || devolucion > 3);
             return devolucion;
         }
         public static string leerString(string mensaje)

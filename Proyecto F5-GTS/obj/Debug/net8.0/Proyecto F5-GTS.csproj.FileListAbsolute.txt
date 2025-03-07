@@ -1,0 +1,19 @@
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\obj\Debug\net8.0\Proyecto F5-GTS.csproj.AssemblyReference.cache
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\obj\Debug\net8.0\Proyecto F5-GTS.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\obj\Debug\net8.0\Proyecto F5-GTS.AssemblyInfoInputs.cache
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\obj\Debug\net8.0\Proyecto F5-GTS.AssemblyInfo.cs
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\obj\Debug\net8.0\Proyecto F5-GTS.csproj.CoreCompileInputs.cache
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\obj\Debug\net8.0\Proyecto F5-GTS.sourcelink.json
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\bin\Debug\net8.0\Proyecto F5-GTS.exe
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\bin\Debug\net8.0\Proyecto F5-GTS.deps.json
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\bin\Debug\net8.0\Proyecto F5-GTS.runtimeconfig.json
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\bin\Debug\net8.0\Proyecto F5-GTS.dll
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\bin\Debug\net8.0\Proyecto F5-GTS.pdb
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\bin\Debug\net8.0\ExcelDataReader.dll
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\bin\Debug\net8.0\ExcelDataReader.DataSet.dll
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\obj\Debug\net8.0\Proyecto.5353E2DF.Up2Date
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\obj\Debug\net8.0\Proyecto F5-GTS.dll
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\obj\Debug\net8.0\refint\Proyecto F5-GTS.dll
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\obj\Debug\net8.0\Proyecto F5-GTS.pdb
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\obj\Debug\net8.0\Proyecto F5-GTS.genruntimeconfig.cache
+C:\Users\Frida\source\repos\Proyecto F5-GTS\Proyecto F5-GTS\obj\Debug\net8.0\ref\Proyecto F5-GTS.dll

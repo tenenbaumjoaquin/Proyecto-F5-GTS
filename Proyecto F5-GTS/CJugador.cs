@@ -27,6 +27,20 @@ namespace Proyecto_F5_GTS
         public string CALIFICACION { get => Calificacion; set => Calificacion = value; }
         public (string Nombre, int Puntuacion)[] STATS => Stats;
 
+        private static readonly Dictionary<string, string> NombresCompletosStats = new Dictionary<string, string>
+    {
+        { "VEL", "VELOCIDAD" },
+        { "AGT", "AGUANTE" },
+        { "PAS", "PASE" },
+        { "GMB", "GAMBETA" },
+        { "DEF", "DEFENSA" },
+        { "FIS", "FISICO" },
+        { "PEG", "PEGADA" },
+        { "TIR", "TIRO" },
+        { "ATJ", "ATAJADA" },
+        { "REF", "REFLEJO" }
+    };
+
         //Constructor sin parametrizar
         public CJugador()
         {
@@ -71,11 +85,15 @@ namespace Proyecto_F5_GTS
         {
             for (int i = 0; i < Stats.Length; i++)
             {
-                Console.Write($"Ingrese puntuación para {Stats[i].Nombre}: ");
+                string nombreCompleto = NombresCompletosStats.ContainsKey(Stats[i].Nombre)
+                ? NombresCompletosStats[Stats[i].Nombre]
+                : Stats[i].Nombre; // Si no existe en el diccionario, usa el mismo nombre
+
+                Console.Write($"\n\tIngrese puntuación para {nombreCompleto}: ");
                 int puntuacion;
                 while (!int.TryParse(Console.ReadLine(), out puntuacion) || puntuacion < 0 || puntuacion > 10)
                 {
-                    Console.Write("Valor inválido. Ingrese un número entre 0 y 10: ");
+                    Console.Write("\n\tValor inválido. Ingrese un número entre 0 y 10: ");
                 }
                 Stats[i] = (Stats[i].Nombre, puntuacion);
             }
@@ -86,7 +104,7 @@ namespace Proyecto_F5_GTS
         {
             int opcion = 0;
             string posicion = "";
-            Console.Write("Seleccione la posicion:\n 1. Arquero.\n 2. Defensor.\n 3. Volante. \n 4. Delantero.");
+            Console.Write("\nSeleccione la posicion:\n 1. Arquero.\n 2. Defensor.\n 3. Volante. \n 4. Delantero.\n");
             do
             {
                 if(!int.TryParse(Console.ReadLine(),out opcion) || opcion < 1 || opcion > 4)

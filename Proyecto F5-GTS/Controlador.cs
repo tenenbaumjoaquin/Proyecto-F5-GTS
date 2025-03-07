@@ -36,12 +36,12 @@ namespace Proyecto_F5_GTS
                 return listaJugadores[indice];
             }
         }
-        public static bool crearJugador( string nombre, string posicion, string calificacion, (string nombre, int puntuacion) [] stats, List<CJugador> listaJugadores )
+        public static bool crearJugador( string nombre, List<CJugador> listaJugadores )
         {
             if ( buscar(listaJugadores, nombre) == null)
             {
-                int id = ultimoID(listaJugadores);
-                CJugador newJugador = new CJugador(id, nombre, posicion, calificacion, stats);
+                int id = ultimoID(listaJugadores)+1;
+                CJugador newJugador = new CJugador(id, nombre);
                 listaJugadores.Add(newJugador);
                 return true;
             }
@@ -73,10 +73,8 @@ namespace Proyecto_F5_GTS
                 XmlDeclaration xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);//Declara el formato del archivo
                 xmlDoc.AppendChild(xmlDeclaration); //agrega la declaracion al archivo
 
-
                 XmlElement rootElement = xmlDoc.CreateElement("jugadores");//Asigna el campo clave del archivo (Clase padre) y lo establece como la raiz de la lista
-                xmlDoc.AppendChild(rootElement); //Agrega la raiz al archivo
-
+                xmlDoc.AppendChild(rootElement); 
 
                 foreach (CJugador jugador in listaJugadores)//Recorre la lista añadiendo cada objeto hijo en el formato dado
                 {
@@ -110,7 +108,6 @@ namespace Proyecto_F5_GTS
                     }
                     jugadorElement.AppendChild(statsElement);
 
-
                     rootElement.AppendChild(jugadorElement); //agrega el objeto al la raiz del archivo
                 }
 
@@ -120,6 +117,47 @@ namespace Proyecto_F5_GTS
             catch (Exception ex) //Si el proceso falla en algun lugar, se captura el error, se retornar como mensaje y el programa no se interrumpe
             {
                 return ex.Message;
+            }
+        }
+
+        public static string leerXML (string archivo, List<CJugador> listaJugadores)
+        {
+            try
+            {
+                XmlDocument xmlDoc = new XmlDocument ();
+                xmlDoc.Load (archivo);
+                XmlNodeList jugadorNodes = xmlDoc.SelectNodes("//jugador");
+                
+                foreach (XmlNode jugadorNode in jugadorNodes)
+                {
+                    int id;
+                    if (! int.TryParse(jugadorNode.SelectSingleNode("id").InnerText, out id))
+                    {
+                        id = 0;
+                    }
+                    string nombre = jugadorNode.SelectSingleNode("nombre").InnerText;
+                    string posicion = jugadorNode.SelectSingleNode("posicion").InnerText;
+                    string calificacion = jugadorNode.SelectSingleNode("calificacion").InnerText;
+                    // Leer estadísticas
+                    List<(string Nombre, int Puntuacion)> statsList = new List<(string, int)>();
+                    XmlNode statsNode = jugadorNode.SelectSingleNode("Estadisticas");
+                    if (statsNode != null)
+                    {
+                        foreach (XmlNode statNode in statsNode.ChildNodes)
+                        {
+                            string statNombre = statNode.Name;
+                            int statValor = int.TryParse(statNode.InnerText, out int tempValor) ? tempValor : 0;
+                            statsList.Add((statNombre, statValor));
+                        }
+                    }
+                    CJugador jugador = new CJugador(id, nombre, posicion, calificacion, statsList.ToArray());
+                    listaJugadores.Add(jugador);
+                }
+                return "ok";
+            }
+            catch (Exception ex)
+            {
+                return $"Error {ex.Message}";
             }
         }
     }
