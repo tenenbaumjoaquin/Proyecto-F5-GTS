@@ -14,6 +14,7 @@ namespace Proyecto_F5_GTS
         private string Nombre;
         private string Posicion;
         private string Calificacion;
+        private double punTotal;
         private (string Nombre, int Puntuacion)[] Stats =
         {
             ("VEL" , 0), ("AGT" , 0), ("PAS" , 0), ("GMB" , 0), ("DEF" , 0),
@@ -25,6 +26,7 @@ namespace Proyecto_F5_GTS
         public string NOMBRE { get => Nombre ; set => Nombre = value; }
         public string POSICION { get => Posicion; set => Posicion = value; }
         public string CALIFICACION { get => Calificacion; set => Calificacion = value; }
+        public double PUNTOTAL { get => punTotal; set => punTotal = value; }
         public (string Nombre, int Puntuacion)[] STATS => Stats;
 
         private static readonly Dictionary<string, string> NombresCompletosStats = new Dictionary<string, string>
@@ -69,12 +71,13 @@ namespace Proyecto_F5_GTS
             this.NOMBRE = nombre;
         }
         //Constructor totalmente parametrizado (UTILIZADO PARA POBLAR LA LISTA CUANDO SE CARGA DESDE EL ARCHIVO)
-        public CJugador (int id, string nombre, string posicion, string calificacion, (string Nombre, int Puntuacion) [] stats )
+        public CJugador (int id, string nombre, string posicion, string calificacion, double punTotal, (string Nombre, int Puntuacion) [] stats )
         {
             this.ID = id;
             this.NOMBRE = nombre;
             this.POSICION = posicion;
             this.CALIFICACION = calificacion;
+            this.PUNTOTAL = punTotal;
             for (int i = 0; i < stats.Length; i++)
             {
                 this.Stats[i] = stats[i];
@@ -177,12 +180,13 @@ namespace Proyecto_F5_GTS
                 this.CALIFICACION = "D";
             else
                 this.CALIFICACION = "F";
+            this.PUNTOTAL = totalPonderado;
         }
 
         public string darDatos()
         {
             // Construimos la información básica del jugador
-            string datos = $"\n\nID: {ID}\nNombre: {NOMBRE}\nPosicion: {POSICION}\nCalificacion: {CALIFICACION}\n";
+            string datos = $"\n\nID: {ID}\nNombre: {NOMBRE}\nPosicion: {POSICION}\nCalificacion: {CALIFICACION}\nPuntaje: {PUNTOTAL}";
 
             // Agregamos las estadísticas
             datos += "Estadísticas:\n";

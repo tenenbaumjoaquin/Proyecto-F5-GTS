@@ -5,6 +5,7 @@ using System.Text;
 using ExcelDataReader;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Globalization;
 
 namespace Proyecto_F5_GTS
 {
@@ -49,12 +50,12 @@ namespace Proyecto_F5_GTS
             return false;
         }
 
-        public static bool cargarJugador(string nombre, string posicion, string calificacion, (string nombre, int puntuacion)[] stats, List<CJugador> listaJugadores)
+        public static bool cargarJugador(string nombre, string posicion, string calificacion, double puntotal, (string nombre, int puntuacion)[] stats, List<CJugador> listaJugadores)
         {
             if (buscar(listaJugadores, nombre) == null)
             {
                 int id = ultimoID(listaJugadores);
-                CJugador newJugador = new CJugador(id, nombre, posicion, calificacion, stats);
+                CJugador newJugador = new CJugador(id, nombre, posicion, calificacion, puntotal, stats);
                 listaJugadores.Add(newJugador);
                 return true;
             }
@@ -98,6 +99,10 @@ namespace Proyecto_F5_GTS
                     calificacionElement.InnerText = jugador.CALIFICACION;
                     jugadorElement.AppendChild(calificacionElement);
 
+                    XmlElement puntuacionElement = xmlDoc.CreateElement("puntuacion");
+                    puntuacionElement.InnerText = jugador.PUNTOTAL.ToString();
+                    jugadorElement.AppendChild (puntuacionElement);
+
                     // Sección para guardar estadísticas
                     XmlElement statsElement = xmlDoc.CreateElement("Estadisticas");
                     foreach (var stat in jugador.STATS)
@@ -138,6 +143,7 @@ namespace Proyecto_F5_GTS
                     string nombre = jugadorNode.SelectSingleNode("nombre").InnerText;
                     string posicion = jugadorNode.SelectSingleNode("posicion").InnerText;
                     string calificacion = jugadorNode.SelectSingleNode("calificacion").InnerText;
+                    double puntuacion = Convert.ToDouble(jugadorNode.SelectSingleNode("puntuacion").InnerText, CultureInfo.InvariantCulture);
                     // Leer estadísticas
                     List<(string Nombre, int Puntuacion)> statsList = new List<(string, int)>();
                     XmlNode statsNode = jugadorNode.SelectSingleNode("Estadisticas");
@@ -150,7 +156,7 @@ namespace Proyecto_F5_GTS
                             statsList.Add((statNombre, statValor));
                         }
                     }
-                    CJugador jugador = new CJugador(id, nombre, posicion, calificacion, statsList.ToArray());
+                    CJugador jugador = new CJugador(id, nombre, posicion, calificacion, puntuacion, statsList.ToArray());
                     listaJugadores.Add(jugador);
                 }
                 return "ok";
