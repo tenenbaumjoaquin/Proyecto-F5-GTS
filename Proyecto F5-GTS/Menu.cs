@@ -10,7 +10,7 @@ namespace Proyecto_F5_GTS
 {
     static class Menu
     {
-        public static int mostrarMenu()
+        public static int MostrarMenu()
         {
             Console.Clear();
             Console.WriteLine("\t***********************************************");
@@ -20,11 +20,11 @@ namespace Proyecto_F5_GTS
             Console.WriteLine("\n\t[2] Crear Jugador.");
             Console.WriteLine("\n\t[3] Salir y guardar.");
 
-            return pedirDatoMenu();
+            return PedirDatoMenu();
         }
 
         //Retorna el valor de la opcion elegida
-        public static int pedirDatoMenu()
+        public static int PedirDatoMenu()
         {
             int devolucion;
             Console.WriteLine("\n\tIngrese una opcion entre 1 y 3");
@@ -37,7 +37,7 @@ namespace Proyecto_F5_GTS
             } while (devolucion < 1 || devolucion > 3);
             return devolucion;
         }
-        public static string leerString(string mensaje)
+        public static string LeerString(string mensaje)
         {
             Console.WriteLine(mensaje);
             string lectura = Console.ReadLine();
@@ -63,7 +63,7 @@ namespace Proyecto_F5_GTS
             }
         }
         //Validacion de Double
-        public static double valDouble(string mensaje)
+        public static double ValDouble(string mensaje)
         {
             double conversion = 0;
             Console.WriteLine(mensaje);
@@ -78,7 +78,7 @@ namespace Proyecto_F5_GTS
                 Console.WriteLine("El número ingresado no es válido. Intente nuevamente.");
             }
         }
-        public static void mostrarMensaje(string mensaje)
+        public static void MostrarMensaje(string mensaje)
         {
             Console.WriteLine(mensaje);
             Console.WriteLine("\tPresione una tecla para seguir.");

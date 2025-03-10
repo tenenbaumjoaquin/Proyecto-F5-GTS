@@ -8,26 +8,26 @@ using System.Threading.Tasks;
 
 namespace Proyecto_F5_GTS
 {
-    internal class CJugador
+    internal class Jugador
     {
-        private int Id;
-        private string Nombre;
-        private string Posicion;
-        private string Calificacion;
-        private double punTotal;
-        private (string Nombre, int Puntuacion)[] Stats =
+        private int _id;
+        private string _nombre;
+        private string _posicion;
+        private string _calificacion;
+        private double _punTotal;
+        private (string Nombre, int Puntuacion)[] _stats =
         {
             ("VEL" , 0), ("AGT" , 0), ("PAS" , 0), ("GMB" , 0), ("DEF" , 0),
             ("FIS" , 0), ("PEG" , 0), ("TIR" , 0), ("ATJ" , 0), ("REF" , 0)
         };
 
         //Propiedades R-W
-        public int ID { get => Id; set => Id = value; }
-        public string NOMBRE { get => Nombre ; set => Nombre = value; }
-        public string POSICION { get => Posicion; set => Posicion = value; }
-        public string CALIFICACION { get => Calificacion; set => Calificacion = value; }
-        public double PUNTOTAL { get => punTotal; set => punTotal = value; }
-        public (string Nombre, int Puntuacion)[] STATS => Stats;
+        public int ID { get => _id; set => _id = value; }
+        public string NOMBRE { get => _nombre; set => _nombre = value; }
+        public string POSICION { get => _posicion; set => _posicion = value; }
+        public string CALIFICACION { get => _calificacion; set => _calificacion = value; }
+        public double PUNTOTAL { get => _punTotal; set => _punTotal = value; }
+        public (string Nombre, int Puntuacion)[] STATS => _stats;
 
         private static readonly Dictionary<string, string> NombresCompletosStats = new Dictionary<string, string>
     {
@@ -44,13 +44,13 @@ namespace Proyecto_F5_GTS
     };
 
         //Constructor sin parametrizar
-        public CJugador()
+        public Jugador()
         {
             ID = 0;
             NOMBRE = "";
             POSICION = "";
             CALIFICACION = "";
-            Stats = new (string Nombre, int Puntacion )[] 
+            _stats = new (string Nombre, int Puntacion )[] 
             { 
                 ("VEL", 0), ("AGT", 0), ("PAS", 0), ("GMB", 0), ("DEF", 0),
                 ("FIS", 0), ("PEG", 0), ("TIR", 0), ("ATJ", 0), ("REF", 0) 
@@ -58,20 +58,20 @@ namespace Proyecto_F5_GTS
         }
 
         //Constructor parcialmente parametrizado
-        public CJugador (int id, string nombre)
+        public Jugador (int id, string nombre)
         {
             this.ID = id;
             this.NOMBRE = nombre;
-            this.POSICION = cargarPosicion();
+            this.POSICION = CargarPosicion();
             CargarStats();
         } 
         //Constructor con un parametro para busqueda en lista
-        public CJugador ( string nombre)
+        public Jugador ( string nombre)
         {
             this.NOMBRE = nombre;
         }
         //Constructor totalmente parametrizado (UTILIZADO PARA POBLAR LA LISTA CUANDO SE CARGA DESDE EL ARCHIVO)
-        public CJugador (int id, string nombre, string posicion, string calificacion, double punTotal, (string Nombre, int Puntuacion) [] stats )
+        public Jugador (int id, string nombre, string posicion, string calificacion, double punTotal, (string Nombre, int Puntuacion) [] stats )
         {
             this.ID = id;
             this.NOMBRE = nombre;
@@ -80,17 +80,17 @@ namespace Proyecto_F5_GTS
             this.PUNTOTAL = punTotal;
             for (int i = 0; i < stats.Length; i++)
             {
-                this.Stats[i] = stats[i];
+                this.STATS[i] = stats[i];
             }
         }
 
         public void CargarStats()
         {
-            for (int i = 0; i < Stats.Length; i++)
+            for (int i = 0; i < STATS.Length; i++)
             {
-                string nombreCompleto = NombresCompletosStats.ContainsKey(Stats[i].Nombre)
-                ? NombresCompletosStats[Stats[i].Nombre]
-                : Stats[i].Nombre; // Si no existe en el diccionario, usa el mismo nombre
+                string nombreCompleto = NombresCompletosStats.ContainsKey(STATS[i].Nombre)
+                ? NombresCompletosStats[STATS[i].Nombre]
+                : STATS[i].Nombre; // Si no existe en el diccionario, usa el mismo nombre
 
                 Console.Write($"\n\tIngrese puntuación para {nombreCompleto}: ");
                 int puntuacion;
@@ -98,12 +98,12 @@ namespace Proyecto_F5_GTS
                 {
                     Console.Write("\n\tValor inválido. Ingrese un número entre 0 y 10: ");
                 }
-                Stats[i] = (Stats[i].Nombre, puntuacion);
+                STATS[i] = (STATS[i].Nombre, puntuacion);
             }
-            calcularCalificacion();
+            CalcularCalificacion();
         }
 
-        public string cargarPosicion()
+        public string CargarPosicion()
         {
             int opcion = 0;
             string posicion = "";
@@ -137,7 +137,7 @@ namespace Proyecto_F5_GTS
             }
             return posicion;
         } 
-        public void calcularCalificacion()
+        public void CalcularCalificacion()
         {
             double[] pesos;
             //PONDERACION DE CADA ESTADISTICA SEGUN POSICION
@@ -161,9 +161,9 @@ namespace Proyecto_F5_GTS
             }
             double totalPonderado = 0;
             double totalPesos = 0;
-            for (int i = 0; i < this.Stats.Length; i++)
+            for (int i = 0; i < this.STATS.Length; i++)
             {
-                totalPonderado += this.Stats[i].Puntuacion * pesos[i];
+                totalPonderado += this.STATS[i].Puntuacion * pesos[i];
                 totalPesos += pesos[i];
             }
             //PROMEDIAR NOTA
@@ -180,13 +180,13 @@ namespace Proyecto_F5_GTS
                 this.CALIFICACION = "D";
             else
                 this.CALIFICACION = "F";
-            this.PUNTOTAL = totalPonderado;
+            this.PUNTOTAL = Math.Round(promedio, 2);
         }
 
-        public string darDatos()
+        public string DarDatos()
         {
             // Construimos la información básica del jugador
-            string datos = $"\n\nID: {ID}\nNombre: {NOMBRE}\nPosicion: {POSICION}\nCalificacion: {CALIFICACION}\nPuntaje: {PUNTOTAL}";
+            string datos = $"\n\nID: {ID}\nNombre: {NOMBRE}\nPosicion: {POSICION}\nCalificacion: {CALIFICACION}\nPuntaje: {PUNTOTAL:F2}\n";
 
             // Agregamos las estadísticas
             datos += "Estadísticas:\n";

@@ -13,78 +13,78 @@ namespace Proyecto_F5_GTS
     {
         static void Main(string[] args)
         {
-            List<CJugador> listaJugadores = new List<CJugador>();
-            cargarXML(listaJugadores);
+            List<Jugador> listaJugadores = new List<Jugador>();
+            CargarXML(listaJugadores);
             int opcion;
             bool resultadoOperacion = false;
-            opcion = Menu.mostrarMenu();
+            opcion = Menu.MostrarMenu();
             while (opcion != 3)
             {
                 switch (opcion)
                 {
                     case 1:
-                        if( mostrarListado(listaJugadores) != "")
+                        if( MostrarListado(listaJugadores) != "")
                         {
-                            Console.WriteLine(mostrarListado(listaJugadores));
-                            Menu.mostrarMensaje("Lista desplegada.");
+                            Console.WriteLine(MostrarListado(listaJugadores));
+                            Menu.MostrarMensaje("Lista desplegada.");
                         }
                         else
                         {
-                            Menu.mostrarMensaje("Lista vacia.");
+                            Menu.MostrarMensaje("Lista vacia.");
                         }
                         break;
                     case 2:
-                        resultadoOperacion = crearJugador(listaJugadores);
+                        resultadoOperacion = CrearJugador(listaJugadores);
                         if (resultadoOperacion)
                         {
-                            Menu.mostrarMensaje("Jugador creado con exito.");
+                            Menu.MostrarMensaje("Jugador creado con exito.");
                         }
                         break;
                 }
-                opcion = Menu.mostrarMenu();
+                opcion = Menu.MostrarMenu();
             }
-            guardarEnXML(listaJugadores);
-            Menu.mostrarMensaje("\tHasta la proxima.");
+            GuardarEnXML(listaJugadores);
+            Menu.MostrarMensaje("\tHasta la proxima.");
         }
 
-        public static bool crearJugador(List<CJugador> listaJugadores)
+        public static bool CrearJugador(List<Jugador> listaJugadores)
         {
-            string nombre = Menu.leerString("Ingrese el nombre del jugador: ") ;
-            return Controlador.crearJugador(nombre, listaJugadores);
+            string nombre = Menu.LeerString("Ingrese el nombre del jugador: ") ;
+            return Controlador.CrearJugador(nombre, listaJugadores);
         }
 
-        public static void cargarXML( List<CJugador> listaJugadores)
+        public static void CargarXML( List<Jugador> listaJugadores)
         {
-            string resultado = Controlador.leerXML("playerList.xml", listaJugadores);
+            string resultado = Controlador.LeerXML("playerList.xml", listaJugadores);
             if (resultado == "ok")
             {
-                Menu.mostrarMensaje("Archivo cargado.");
+                Menu.MostrarMensaje("Archivo cargado.");
             }
             else
             {
-                Menu.mostrarMensaje("Error al cargar archivo.");
+                Menu.MostrarMensaje("Error al cargar archivo.");
             }
         }
 
-        public static void guardarEnXML(List<CJugador> listaJugadores)
+        public static void GuardarEnXML(List<Jugador> listaJugadores)
         {
-            string resultado = Controlador.guardarEnXML("playerList.xml", listaJugadores);
+            string resultado = Controlador.GuardarEnXML("playerList.xml", listaJugadores);
             if (resultado == "ok")
             {
-                Menu.mostrarMensaje("\tArchivo guardado con exito.");
+                Menu.MostrarMensaje("\tArchivo guardado con exito.");
             }
             else
             {
-                Menu.mostrarMensaje("\tNo se pudo guardar. Error: " + resultado);
+                Menu.MostrarMensaje("\tNo se pudo guardar. Error: " + resultado);
             }
         }
 
-        public static string mostrarListado(List<CJugador> listaJugadores)
+        public static string MostrarListado(List<Jugador> listaJugadores)
         {
             string lista = "";
-            foreach (CJugador jugador in listaJugadores)
+            foreach (Jugador jugador in listaJugadores)
             {
-                lista += jugador.darDatos();
+                lista += jugador.DarDatos();
             }
             return lista;
         }

@@ -5,14 +5,14 @@
     <nombre>Joaquin</nombre>
     <posicion>DEF</posicion>
     <calificacion>C</calificacion>
-    <puntuacion>75,2</puntuacion>
+    <puntuacion>6,92</puntuacion>
     <Estadisticas>
-      <VEL>7</VEL>
+      <VEL>8</VEL>
       <AGT>7</AGT>
-      <PAS>7</PAS>
-      <GMB>4</GMB>
+      <PAS>6</PAS>
+      <GMB>5</GMB>
       <DEF>9</DEF>
-      <FIS>7</FIS>
+      <FIS>8</FIS>
       <PEG>6</PEG>
       <TIR>5</TIR>
       <ATJ>6</ATJ>
