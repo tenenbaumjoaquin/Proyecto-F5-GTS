@@ -14,11 +14,14 @@ namespace Proyecto_F5_GTS
         static void Main(string[] args)
         {
             List<Jugador> listaJugadores = new List<Jugador>();
-            CargarXML(listaJugadores);
+            Dictionary<int, Jugador> dicJugadores = listaJugadores.ToDictionary(j => j.ID);
+            List<Grupo> listaGrupos = new List<Grupo>();
+            CargarJugadoresXML(listaJugadores);
+            CargarGruposXML(listaGrupos);
             int opcion;
             bool resultadoOperacion = false;
             opcion = Menu.MostrarMenu();
-            while (opcion != 3)
+            while (opcion != 0)
             {
                 switch (opcion)
                 {
@@ -43,7 +46,8 @@ namespace Proyecto_F5_GTS
                 }
                 opcion = Menu.MostrarMenu();
             }
-            GuardarEnXML(listaJugadores);
+            GuardarJugadoresXML(listaJugadores);
+            GuardarGruposXML(listaGrupos);
             Menu.MostrarMensaje("\tHasta la proxima.");
         }
 
@@ -52,23 +56,33 @@ namespace Proyecto_F5_GTS
             string nombre = Menu.LeerString("Ingrese el nombre del jugador: ") ;
             return Controlador.CrearJugador(nombre, listaJugadores);
         }
-
-        public static void CargarXML( List<Jugador> listaJugadores)
+        public static bool CrearGrupo(List<Grupo> listaGrupos)
         {
-            string resultado = Controlador.LeerXML("playerList.xml", listaJugadores);
+            string nombre = Menu.LeerString("Ingrese el nombre del grupo: ");
+            return Controlador.CrearGrupo(nombre, listaGrupos);
+        }
+
+        public static bool AgregarJugador(List<Jugador> listaJugadores, List<Grupo> listaGrupos)
+        {
+            Console.WriteLine("\n\tSe ")
+        }
+
+        public static void CargarJugadoresXML( List<Jugador> listaJugadores)
+        {
+            string resultado = Controlador.LeerJugadorXML("playerList.xml", listaJugadores);
             if (resultado == "ok")
             {
                 Menu.MostrarMensaje("Archivo cargado.");
             }
             else
             {
-                Menu.MostrarMensaje("Error al cargar archivo.");
+                Menu.MostrarMensaje("Error al cargar jugadores");
             }
         }
 
-        public static void GuardarEnXML(List<Jugador> listaJugadores)
+        public static void GuardarJugadoresXML(List<Jugador> listaJugadores)
         {
-            string resultado = Controlador.GuardarEnXML("playerList.xml", listaJugadores);
+            string resultado = Controlador.GuardarJugadorXML("playerList.xml", listaJugadores);
             if (resultado == "ok")
             {
                 Menu.MostrarMensaje("\tArchivo guardado con exito.");
@@ -77,6 +91,32 @@ namespace Proyecto_F5_GTS
             {
                 Menu.MostrarMensaje("\tNo se pudo guardar. Error: " + resultado);
             }
+        }
+        public static void CargarGruposXML(List<Grupo> listaGrupos)
+        {
+            string resultado = Controlador.GuardarGrupoXML("groupList.xml", listaGrupos);
+            if (resultado == "ok")
+                Menu.MostrarMensaje("\tArchivo cargado.");
+            else
+                Menu.MostrarMensaje("\tError al cargar grupos.");
+        }
+        public static void GuardarGruposXML(List<Grupo> listaGrupos)
+        {
+            string resultado = Controlador.GuardarGrupoXML("groupList.xml", listaGrupos);
+            if (resultado == "ok")
+                Menu.MostrarMensaje("\tArchivo guardado con exito.");
+            else
+                Menu.MostrarMensaje("\tNo se pudo guardar. Error: " + resultado);
+        }
+        public static string MostrarListado(List<Grupo> listaGrupos, Dictionary<int, Jugador> dicJugadores)
+        {
+            string lista = "";
+            foreach (Grupo grupo in listaGrupos)
+            {
+                lista += grupo.DarDatos(dicJugadores);
+
+            }
+            return lista;
         }
 
         public static string MostrarListado(List<Jugador> listaJugadores)

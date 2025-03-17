@@ -6,7 +6,7 @@
     <posicion>DEF</posicion>
     <calificacion>C</calificacion>
     <puntuacion>6,92</puntuacion>
-    <Estadisticas>
+    <estadisticas>
       <VEL>8</VEL>
       <AGT>7</AGT>
       <PAS>6</PAS>
@@ -17,6 +17,25 @@
       <TIR>5</TIR>
       <ATJ>6</ATJ>
       <REF>7</REF>
-    </Estadisticas>
+    </estadisticas>
+  </jugador>
+  <jugador>
+    <id>2</id>
+    <nombre>RIQUELME</nombre>
+    <posicion>VOL</posicion>
+    <calificacion>B</calificacion>
+    <puntuacion>7,75</puntuacion>
+    <estadisticas>
+      <VEL>5</VEL>
+      <AGT>6</AGT>
+      <PAS>10</PAS>
+      <GMB>10</GMB>
+      <DEF>5</DEF>
+      <FIS>8</FIS>
+      <PEG>10</PEG>
+      <TIR>10</TIR>
+      <ATJ>3</ATJ>
+      <REF>8</REF>
+    </estadisticas>
   </jugador>
 </jugadores>

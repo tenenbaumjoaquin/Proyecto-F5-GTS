@@ -18,7 +18,10 @@ namespace Proyecto_F5_GTS
             Console.WriteLine("\t***********************************************");
             Console.WriteLine("\n\t[1] Listar Jugadores.");
             Console.WriteLine("\n\t[2] Crear Jugador.");
-            Console.WriteLine("\n\t[3] Salir y guardar.");
+            Console.WriteLine("\n\t[3] Crear Grupo.");
+            Console.WriteLine("\n\t[4] Agregar Jugador a Grupo.");
+            Console.WriteLine("\n\t[]");
+            Console.WriteLine("\n\t[0] Salir y guardar.");
 
             return PedirDatoMenu();
         }
@@ -26,16 +29,17 @@ namespace Proyecto_F5_GTS
         //Retorna el valor de la opcion elegida
         public static int PedirDatoMenu()
         {
-            int devolucion;
-            Console.WriteLine("\n\tIngrese una opcion entre 1 y 3");
-            do
+            int opcion;
+            Console.WriteLine("\n\tIngrese una opcion entre 1 y 3.\n\tIngrese 0 para salir.");
+            while (true) // Bucle infinito hasta que se ingrese un valor válido
             {
-                if (!int.TryParse(Console.ReadLine(), out devolucion) || devolucion < 1 || devolucion > 3)
+                Console.Write("\tOpción: ");
+                if (int.TryParse(Console.ReadLine(), out opcion) && opcion >= 0 && opcion <= 3)
                 {
-                    Console.WriteLine("\tIngrese una opcion entre 1 y 3.");
+                    return opcion; // Retorna la opción válida
                 }
-            } while (devolucion < 1 || devolucion > 3);
-            return devolucion;
+                Console.WriteLine("\tEntrada inválida. Ingrese una opción entre 0 y 3.");
+            }
         }
         public static string LeerString(string mensaje)
         {

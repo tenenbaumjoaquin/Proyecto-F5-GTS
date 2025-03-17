@@ -15,7 +15,7 @@ namespace Proyecto_F5_GTS
         private string _posicion;
         private string _calificacion;
         private double _punTotal;
-        private (string Nombre, int Puntuacion)[] _stats =
+        private (string _nombre, int _puntuacion)[] _stats =
         {
             ("VEL" , 0), ("AGT" , 0), ("PAS" , 0), ("GMB" , 0), ("DEF" , 0),
             ("FIS" , 0), ("PEG" , 0), ("TIR" , 0), ("ATJ" , 0), ("REF" , 0)
@@ -27,7 +27,7 @@ namespace Proyecto_F5_GTS
         public string POSICION { get => _posicion; set => _posicion = value; }
         public string CALIFICACION { get => _calificacion; set => _calificacion = value; }
         public double PUNTOTAL { get => _punTotal; set => _punTotal = value; }
-        public (string Nombre, int Puntuacion)[] STATS => _stats;
+        public (string _nombre, int _puntuacion)[] STATS => _stats;
 
         private static readonly Dictionary<string, string> NombresCompletosStats = new Dictionary<string, string>
     {
@@ -88,9 +88,9 @@ namespace Proyecto_F5_GTS
         {
             for (int i = 0; i < STATS.Length; i++)
             {
-                string nombreCompleto = NombresCompletosStats.ContainsKey(STATS[i].Nombre)
-                ? NombresCompletosStats[STATS[i].Nombre]
-                : STATS[i].Nombre; // Si no existe en el diccionario, usa el mismo nombre
+                string nombreCompleto = NombresCompletosStats.ContainsKey(STATS[i]._nombre)
+                ? NombresCompletosStats[STATS[i]._nombre]
+                : STATS[i]._nombre; // Si no existe en el diccionario, usa el mismo nombre
 
                 Console.Write($"\n\tIngrese puntuación para {nombreCompleto}: ");
                 int puntuacion;
@@ -98,7 +98,7 @@ namespace Proyecto_F5_GTS
                 {
                     Console.Write("\n\tValor inválido. Ingrese un número entre 0 y 10: ");
                 }
-                STATS[i] = (STATS[i].Nombre, puntuacion);
+                STATS[i] = (STATS[i]._nombre, puntuacion);
             }
             CalcularCalificacion();
         }
@@ -163,7 +163,7 @@ namespace Proyecto_F5_GTS
             double totalPesos = 0;
             for (int i = 0; i < this.STATS.Length; i++)
             {
-                totalPonderado += this.STATS[i].Puntuacion * pesos[i];
+                totalPonderado += this.STATS[i]._puntuacion * pesos[i];
                 totalPesos += pesos[i];
             }
             //PROMEDIAR NOTA
@@ -192,8 +192,15 @@ namespace Proyecto_F5_GTS
             datos += "Estadísticas:\n";
             foreach (var stat in STATS)
             {
-                datos += $"- {stat.Nombre}: {stat.Puntuacion}\n";
+                datos += $"- {stat._nombre}: {stat._puntuacion}\n";
             }
+            return datos;
+        }
+
+        public string DarMenosDatos()
+        {
+            // Construimos la información básica del jugador
+            string datos = $"\n\nID: {ID}\nNombre: {NOMBRE}\nPosicion: {POSICION}\nCalificacion: {CALIFICACION}\nPuntaje: {PUNTOTAL:F2}\n";
             return datos;
         }
     }
