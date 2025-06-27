@@ -49,6 +49,15 @@ namespace Proyecto_F5_GTS
             else
                 return listaGrupo[indice];
         }
+        public static Grupo BuscarId(List<Grupo> listaGrupo, int ID)
+        {
+            foreach (Grupo grupo in listaGrupo)
+            {
+                if (grupo.ID == ID)
+                    return grupo;
+            }
+            return null;
+        }
         public static bool CrearJugador( string nombre, List<Jugador> listaJugadores )
         {
             if ( Buscar(listaJugadores, nombre) == null)
@@ -58,7 +67,7 @@ namespace Proyecto_F5_GTS
                 listaJugadores.Add(newJugador);
                 return true;
             }
-            Menu.MostrarMensaje("\nJugador ya registrado con ese nombre.");
+            Menu.MostrarMensaje("\n\tJugador ya registrado con ese nombre.");
             return false;
         }
         public static bool CrearGrupo ( string nombre, List<Grupo> listaGrupos )
@@ -70,13 +79,28 @@ namespace Proyecto_F5_GTS
                 listaGrupos.Add(grupo);
                 return true;
             }
-            Menu.MostrarMensaje("\nGrupo ya registrado con ese nombre.");
+            Menu.MostrarMensaje("\n\tGrupo ya registrado con ese nombre.");
             return false;
         }
 
-        public static bool AgregarJugadorAGrupo( int idJugador, int idGrupo, List<Grupo> listaGrupos )
+        public static bool AgregarJugadorAGrupo( List<int> idsJugadores, int idGrupo, List<Grupo> listaGrupos)
         {
-
+            //POR ACA TENGO QUE SEGUIR
+            Grupo grupoSeleccionado = BuscarId(listaGrupos, idGrupo);
+            if ( grupoSeleccionado != null)
+            {
+                foreach(int id in idsJugadores)
+                {
+                    grupoSeleccionado.AgregarJugador(id);
+                }
+                Console.WriteLine("\tJugadores ingresados correctamente.");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\nGrupo no encontrado.");
+                return false;
+            }
         }
 
         public static bool CargarJugador(string nombre, string posicion, string calificacion, double puntotal, (string nombre, int puntuacion)[] stats, List<Jugador> listaJugadores)
@@ -88,7 +112,7 @@ namespace Proyecto_F5_GTS
                 listaJugadores.Add(newJugador);
                 return true;
             }
-            Menu.MostrarMensaje("\nJugador ya registrado con ese nombre.");
+            Menu.MostrarMensaje("\n\tJugador ya registrado con ese nombre.");
             return false;
         }
         public static bool CargarGrupo(string nombre, string direccion, string horario, List<Grupo> listaGrupos)
@@ -253,6 +277,44 @@ namespace Proyecto_F5_GTS
             catch (Exception ex)
             {
                 return $"Error {ex.Message}";
+            }
+        }
+        public static string LeerGrupoXML (string archivo, List<Grupo> grupos)
+        {
+            try
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(archivo);
+                XmlNodeList grupoNodes = xmlDoc.SelectNodes("//grupo");
+
+                foreach (XmlNode grupoNode in grupoNodes)
+                {
+                    int id = int.TryParse(grupoNode.SelectSingleNode("id")?.InnerText, out int tempId) ? tempId : 0;
+                    string nombre = grupoNode.SelectSingleNode("nombre")?.InnerText ?? "";
+                    int count = int.TryParse(grupoNode.SelectSingleNode("count")?.InnerText, out int tempCount) ? tempCount : 0;
+
+                    List<int> idsJugadores = new List<int>();
+                    XmlNode jugadoresNode = grupoNode.SelectSingleNode("jugadores");
+                    if (jugadoresNode != null)
+                    {
+                        foreach (XmlNode idNode in jugadoresNode.SelectNodes("id"))
+                        {
+                            if (int.TryParse(idNode.InnerText, out int idJugador))
+                            {
+                                idsJugadores.Add(idJugador);
+                            }
+                        }
+                    }
+                    Grupo grupo = new Grupo(id, nombre, idsJugadores);
+                    grupo.COUNT = count; // redundante si ya se calculó en el constructor, pero por si acaso
+                    grupos.Add(grupo);
+                }
+
+                return "ok";
+            }
+            catch (Exception ex)
+            {
+                return $"Error: {ex.Message}";
             }
         }
     }

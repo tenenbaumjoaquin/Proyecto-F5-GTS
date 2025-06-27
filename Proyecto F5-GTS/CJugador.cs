@@ -107,12 +107,12 @@ namespace Proyecto_F5_GTS
         {
             int opcion = 0;
             string posicion = "";
-            Console.Write("\nSeleccione la posicion:\n 1. Arquero.\n 2. Defensor.\n 3. Volante. \n 4. Delantero.\n");
+            Console.Write("\n\tSeleccione la posicion:\n\t 1. Arquero.\n\t 2. Defensor.\n\t 3. Volante. \n\t 4. Delantero.\n");
             do
             {
                 if(!int.TryParse(Console.ReadLine(),out opcion) || opcion < 1 || opcion > 4)
                 {
-                    Console.WriteLine("\nIngrese una opcion valida.");
+                    Console.WriteLine("\n\tIngrese una opcion valida.");
                 }
 
             } while (opcion < 1 || opcion > 4);
@@ -120,19 +120,19 @@ namespace Proyecto_F5_GTS
             {
                 case 1:
                     posicion = "ARQ";
-                    Console.WriteLine("\nSe selecciono ARQUERO.");
+                    Console.WriteLine("\n\tSe selecciono ARQUERO.");
                     break;
                 case 2:
                     posicion = "DEF";
-                    Console.WriteLine("\nSe selecciono DEFENSOR.");
+                    Console.WriteLine("\n\tSe selecciono DEFENSOR.");
                     break;
                 case 3:
                     posicion = "VOL";
-                    Console.WriteLine("\nSe selecciono VOLANTE.");
+                    Console.WriteLine("\n\tSe selecciono VOLANTE.");
                     break;
                 case 4:
                     posicion = "DEL";
-                    Console.WriteLine("\nSe selecciono DELANTERO.");
+                    Console.WriteLine("\n\tSe selecciono DELANTERO.");
                     break;
             }
             return posicion;
@@ -186,13 +186,13 @@ namespace Proyecto_F5_GTS
         public string DarDatos()
         {
             // Construimos la información básica del jugador
-            string datos = $"\n\nID: {ID}\nNombre: {NOMBRE}\nPosicion: {POSICION}\nCalificacion: {CALIFICACION}\nPuntaje: {PUNTOTAL:F2}\n";
+            string datos = $"\n\n\tID: {ID}\n\tNombre: {NOMBRE}\n\tPosicion: {POSICION}\n\tCalificacion: {CALIFICACION}\n\tPuntaje: {PUNTOTAL:F2}\n";
 
             // Agregamos las estadísticas
-            datos += "Estadísticas:\n";
+            datos += "\tEstadísticas:\n";
             foreach (var stat in STATS)
             {
-                datos += $"- {stat._nombre}: {stat._puntuacion}\n";
+                datos += $"\t- {stat._nombre}: {stat._puntuacion}\n";
             }
             return datos;
         }
@@ -200,7 +200,7 @@ namespace Proyecto_F5_GTS
         public string DarMenosDatos()
         {
             // Construimos la información básica del jugador
-            string datos = $"\n\nID: {ID}\nNombre: {NOMBRE}\nPosicion: {POSICION}\nCalificacion: {CALIFICACION}\nPuntaje: {PUNTOTAL:F2}\n";
+            string datos = $"\n\n\tID: {ID}\n\tNombre: {NOMBRE}\n\tPosicion: {POSICION}\n\tCalificacion: {CALIFICACION}\n\tPuntaje: {PUNTOTAL:F2}\n";
             return datos;
         }
     }

@@ -68,6 +68,7 @@ namespace Proyecto_F5_GTS
                 this.JUGADORES.Add(jugadorId);
                 COUNT++;
             }
+            else Console.WriteLine("\n\tJugador ya en grupo.");
         }
         public void EliminarJugador(int jugadorId)
         {
@@ -80,18 +81,22 @@ namespace Proyecto_F5_GTS
 
         public string DarDatos(Dictionary<int, Jugador> dicJugadores)
         {
-            string datos = $"\n\nNombre del grupo: {NOMBRE}\n";
-            datos += $"Cantidad de jugadores: {COUNT}\n";
-            datos += "Jugadores:\n";
-            foreach (int id in _jugadores)
+            string datos = $"\n\n\tID: {ID}\n\tNombre del grupo: {NOMBRE}\n";
+            datos += $"\tCantidad de jugadores: {COUNT}\n";
+            
+            if (_jugadores.Count == 0)
+                datos += "\tJugadores: Grupo vacio.\n";
+            else
             {
-                if (dicJugadores.TryGetValue(id, out Jugador jugador)) // Búsqueda en O(1)
+                foreach (int id in _jugadores)
                 {
-                    datos += jugador.DarMenosDatos() + "\n";
+                    if (dicJugadores.TryGetValue(id, out Jugador jugador)) // Búsqueda en O(1)
+                    {
+                        datos += jugador.DarMenosDatos() + "\n";
+                    }
                 }
-            }
+            } 
             return datos;
         }
-
     }
 }
