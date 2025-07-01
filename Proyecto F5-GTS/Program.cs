@@ -17,19 +17,55 @@ namespace Proyecto_F5_GTS
             List<Grupo> listaGrupos = new List<Grupo>();
             CargarDatosXML(listaJugadores, listaGrupos);
             Dictionary<int, Jugador> dicJugadores = listaJugadores.ToDictionary(j => j.ID);
-            int opcion;
+            int opcion, opcionJugador = 0 ,idGrupo = 0, idJugador = 0, opcionSTAT = 0;
             bool resultado = false;
             opcion = Menu.MostrarMenu();
             while (opcion != 0)
             {
                 switch (opcion)
                 {
-                    //MUESTRA LISTA JUGADORES
+                    //MUESTRA LISTA JUGADORES Y OPCIONES VINCULADAS
                     case 1:
                         if (MostrarListado(listaJugadores) != "")
                         {
                             Console.WriteLine(MostrarListado(listaJugadores));
-                            Menu.MostrarMensaje("\tLista desplegada.");
+                            //Menu.MostrarMensaje("\tLista desplegada.")
+                            idJugador = Menu.ValInt("\n\tSeleccione el ID de un jugador o -1 para volver.");
+                            if( idJugador != -1)
+                            {
+                                Jugador jugadorAModificar = Controlador.BuscarId(listaJugadores, idJugador);
+                                Console.WriteLine(jugadorAModificar.DarDatos());
+                                opcionJugador = Menu.MostrarMenuJugador();
+                                switch (opcionJugador)
+                                {
+                                    //Modificar nombre
+                                    case 1:
+                                        resultado = ModificarNombreJugador(listaJugadores, idJugador);
+                                        if (resultado)
+                                        {
+                                            Menu.MostrarMensaje("\tNombre actualizado.");
+                                            ActualizarDiccionario(dicJugadores, listaJugadores);
+                                        }
+                                        else
+                                            Menu.MostrarMensaje("\tError al cambiar el nombre.");
+                                        break;
+                                    //Modificar STAT
+                                    case 2:
+                                        resultado = ModificarSTATS(listaJugadores, idJugador);
+                                        if ((resultado))
+                                        {
+                                            Menu.MostrarMensaje("\tSTATS actualizadas.");
+                                            ActualizarDiccionario(dicJugadores, listaJugadores);
+                                        }
+                                        else
+                                            Menu.MostrarMensaje("\tError al modificar STATS");
+                                        break;
+                                    //Eliminar Jugador
+                                    case 3:
+                                        break;
+                                }
+                            }
+                            break;
                         }
                         else
                         {
@@ -47,12 +83,18 @@ namespace Proyecto_F5_GTS
                         else
                             Menu.MostrarMensaje("\tError al crear jugador.");
                         break;
-                    //Muestra Lista Grupos
-                    case 5:
+                    //MUESTRA LISTA GRUPOS Y OPCIONES VINCULADAS
+                    case 3:
                         if (MostrarListaGrupos(listaGrupos, dicJugadores) != "")
                         {
                             Console.WriteLine(MostrarListaGrupos(listaGrupos, dicJugadores));
-                            Menu.MostrarMensaje("\tLista desplegada.");
+                            //Menu.MostrarMensaje("\tLista desplegada.");
+                            idGrupo = Menu.ValInt("\n\tSeleccione el ID de un Grupo o -1 para volver.");
+                            if(idGrupo != -1)
+                            {
+                                Grupo grupoAModificar = Controlador.BuscarId(listaGrupos, idGrupo);
+                                Console.WriteLine(grupoAModificar.DarDatos(dicJugadores));
+                            }
                         }
                         else
                             Menu.MostrarMensaje("\tLista vacia.");
@@ -84,6 +126,30 @@ namespace Proyecto_F5_GTS
         {
             string nombre = Menu.LeerString("\tIngrese el nombre del jugador: ");
             return Controlador.CrearJugador(nombre, listaJugadores);
+        }
+        public static bool ModificarNombreJugador(List<Jugador> listaJugadores, int ID)
+        {
+            string nuevoNombre = Menu.LeerString("\n\tIngrese el nuevo nombre del jugador:");
+            return Controlador.CambiarNombreJugador(listaJugadores, ID, nuevoNombre);
+        }
+        public static bool ModificarSTATS(List<Jugador> listaJugadores, int ID)
+        {
+            int opcion = Menu.MostrarMenuSTATS();
+
+            if (opcion >= 1 && opcion <= 10)
+            {
+                return Controlador.CambiarSTATS(listaJugadores, ID, opcion - 1); // Convertimos a índice 0–9
+            }
+            else if (opcion == 0)
+            {
+                Console.WriteLine("\tVolviendo al menú anterior...");
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("\tOpción inválida. Intente nuevamente.");
+                return false;
+            }
         }
         public static bool CrearGrupo(List<Grupo> listaGrupos)
         {
@@ -168,7 +234,7 @@ namespace Proyecto_F5_GTS
             string lista = "";
             foreach (Jugador jugador in listaJugadores)
             {
-                lista += jugador.DarDatos();
+                lista += jugador.DarMenosDatos();
             }
             return lista;
         }

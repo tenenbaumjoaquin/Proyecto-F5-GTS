@@ -182,6 +182,16 @@ namespace Proyecto_F5_GTS
                 this.CALIFICACION = "F";
             this.PUNTOTAL = Math.Round(promedio, 2);
         }
+        public bool CambiarStat(int indice, int nuevaPunt)
+        {
+            if (indice >= 0 && indice < _stats.Length && nuevaPunt >= 0 && nuevaPunt <= 100)
+            {
+                _stats[indice] = (_stats[indice]._nombre, nuevaPunt);
+                CalcularCalificacion(); // Siempre que cambie una stat, se recalcula
+                return true;
+            }
+            return false;
+        }
 
         public string DarDatos()
         {

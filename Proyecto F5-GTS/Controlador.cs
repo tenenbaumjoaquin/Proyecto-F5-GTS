@@ -49,6 +49,16 @@ namespace Proyecto_F5_GTS
             else
                 return listaGrupo[indice];
         }
+        public static Jugador BuscarId(List<Jugador> listaJugadores, int ID)
+        {
+            foreach (Jugador jugador in listaJugadores)
+            {
+                if (jugador.ID == ID)
+                    return jugador;
+            }
+            return null;
+        }
+
         public static Grupo BuscarId(List<Grupo> listaGrupo, int ID)
         {
             foreach (Grupo grupo in listaGrupo)
@@ -85,7 +95,6 @@ namespace Proyecto_F5_GTS
 
         public static bool AgregarJugadorAGrupo( List<int> idsJugadores, int idGrupo, List<Grupo> listaGrupos)
         {
-            //POR ACA TENGO QUE SEGUIR
             Grupo grupoSeleccionado = BuscarId(listaGrupos, idGrupo);
             if ( grupoSeleccionado != null)
             {
@@ -102,6 +111,49 @@ namespace Proyecto_F5_GTS
                 return false;
             }
         }
+        public static bool CambiarNombreJugador ( List<Jugador> listaJugadores, int ID, string nuevoNombre)
+        {
+            Jugador jugador = listaJugadores.FirstOrDefault(j => j.ID == ID);
+            if (jugador != null)
+            {
+                jugador.NOMBRE = nuevoNombre;
+                return true; 
+            }
+            return false;
+        }
+        public static bool CambiarNombreGrupo(List<Grupo> listaGrupo, int ID, string nuevoNombre)
+        {
+            Grupo grupo = listaGrupo.FirstOrDefault(g => g.ID == ID);
+            if (grupo != null)
+            {
+                grupo.NOMBRE = nuevoNombre;
+                return true;
+            }
+            return false;
+        }
+        public static bool CambiarSTATS(List<Jugador> listaJugadores, int ID, int indiceStat)
+        {
+            Jugador jugador = listaJugadores.FirstOrDefault(j => j.ID == ID);
+
+            if (jugador == null || indiceStat < 0 || indiceStat >= jugador.STATS.Length)
+                return false;
+
+            Console.Write($"\tIngrese nuevo valor para {jugador.STATS[indiceStat]._nombre} (0-10): ");
+            if (int.TryParse(Console.ReadLine(), out int nuevoValor) && nuevoValor >= 0 && nuevoValor <= 10)
+            {
+                // Esta llamada ya se encarga de actualizar la stat y recalcular todo
+                return jugador.CambiarStat(indiceStat, nuevoValor);
+            }
+            else
+            {
+                Console.WriteLine("\tValor inválido. No se realizó ningún cambio.");
+                return false;
+            }
+        }
+        /*public static bool modificarJugador( int idJugador, List<Jugador> listaJugadores)
+        {
+
+        }*/
 
         public static bool CargarJugador(string nombre, string posicion, string calificacion, double puntotal, (string nombre, int puntuacion)[] stats, List<Jugador> listaJugadores)
         {

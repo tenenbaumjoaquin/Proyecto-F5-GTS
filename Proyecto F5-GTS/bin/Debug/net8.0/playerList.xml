@@ -2,7 +2,7 @@
 <jugadores>
   <jugador>
     <id>1</id>
-    <nombre>Joaquin</nombre>
+    <nombre>Joaco</nombre>
     <posicion>DEF</posicion>
     <calificacion>C</calificacion>
     <puntuacion>6,92</puntuacion>
@@ -24,9 +24,9 @@
     <nombre>RIQUELME</nombre>
     <posicion>VOL</posicion>
     <calificacion>B</calificacion>
-    <puntuacion>7,75</puntuacion>
+    <puntuacion>7,96</puntuacion>
     <estadisticas>
-      <VEL>5</VEL>
+      <VEL>7</VEL>
       <AGT>6</AGT>
       <PAS>10</PAS>
       <GMB>10</GMB>

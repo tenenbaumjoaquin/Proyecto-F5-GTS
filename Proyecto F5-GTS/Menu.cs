@@ -19,31 +19,103 @@ namespace Proyecto_F5_GTS
             Console.WriteLine("\n\t[JUGADORES]");
             Console.WriteLine("\n\t    [1] Listar Jugadores.");
             Console.WriteLine("\n\t    [2] Crear Jugador.");
-            Console.WriteLine("\n\t    [3] Modificar Jugador");
-            Console.WriteLine("\n\t    [4] Eliminar Jugador.");
             Console.WriteLine("\n\t[GRUPOS]");
-            Console.WriteLine("\n\t    [5] Listar Grupos.");
-            Console.WriteLine("\n\t    [6] Crear Grupo.");
-            Console.WriteLine("\n\t    [7] Agregar Jugador a Grupo.");
-            Console.WriteLine("\n\t    [8] Eliminar Jugador de Grupo.");
-            Console.WriteLine("\n\t    [9] Eliminar Grupo.");
+            Console.WriteLine("\n\t    [3] Listar Grupos.");
+            Console.WriteLine("\n\t    [4] Crear Grupo.");
+            Console.WriteLine("\n\t    [5] Agregar Jugador a Grupo.");//Ira en otro menu
+            Console.WriteLine("\n\t    [8] Eliminar Jugador de Grupo.");//Ira en otro menu
+            Console.WriteLine("\n\t    [9] Eliminar Grupo.");//Ira en otro menu
             Console.WriteLine("\n\t[0] Salir y guardar.");
             return PedirDatoMenu();
+        }
+        public static int MostrarMenuJugador()
+        {
+            Console.WriteLine("\n\t    [1] Modificar nombre.");
+            Console.WriteLine("\n\t    [2] Modificar estadistica.");
+            Console.WriteLine("\n\t    [3] Eliminar Jugador.");
+            Console.WriteLine("\n\t    [0] Volver atras.");
+            return PedirDatoMenuJugador();
+        }
+        public static int MostrarMenuGrupo()
+        {
+            Console.WriteLine("\n\t    [1] Cambiar nombre.");
+            Console.WriteLine("\n\t    [2] Agregar Jugador a Grupo.");//Ira en otro menu
+            Console.WriteLine("\n\t    [3] Eliminar Jugador de Grupo.");//Ira en otro menu
+            Console.WriteLine("\n\t    [4] Eliminar Grupo.");//Ira en otro menu
+            Console.WriteLine("\n\t    [0] Volver atras.");
+            return PedirDatoMenuGrupo();
+        }
+        public static int MostrarMenuSTATS()
+        {
+            Console.WriteLine("\n\t    [1] Velocidad.");
+            Console.WriteLine("\n\t    [2] Aguante.");
+            Console.WriteLine("\n\t    [3] Pase.");
+            Console.WriteLine("\n\t    [4] Gambeta.");
+            Console.WriteLine("\n\t    [5] Defensa.");
+            Console.WriteLine("\n\t    [6] Fisico.");
+            Console.WriteLine("\n\t    [7] Pegada.");
+            Console.WriteLine("\n\t    [8] Tiro.");
+            Console.WriteLine("\n\t    [9] Atajada.");
+            Console.WriteLine("\n\t    [10] Reflejo.");
+            Console.WriteLine("\n\t    [0] Volver atras.");
+            return PedirDatoSTATS();
         }
 
         //Retorna el valor de la opcion elegida
         public static int PedirDatoMenu()
         {
             int opcion;
-            Console.WriteLine("\n\tIngrese una opcion entre 1 y 9.\n\tIngrese 0 para salir.");
+            Console.WriteLine("\n\tIngrese una opcion entre 1 y 4.\n\tIngrese 0 para salir.");
             while (true) // Bucle infinito hasta que se ingrese un valor válido
             {
                 Console.Write("\tOpción: ");
-                if (int.TryParse(Console.ReadLine(), out opcion) && opcion >= 0 && opcion <= 9)
+                if (int.TryParse(Console.ReadLine(), out opcion) && opcion >= 0 && opcion <= 4)
                 {
                     return opcion; // Retorna la opción válida
                 }
-                Console.WriteLine("\tEntrada inválida. Ingrese una opción entre 0 y 9.");
+                Console.WriteLine("\tEntrada inválida. Ingrese una opción entre 0 y 4.");
+            }
+        }
+        public static int PedirDatoMenuJugador()
+        {
+            int opcion;
+            Console.WriteLine("\n\tIngrese una opcion entre 1 y 3.\n\tIngrese 0 para salir.");
+            while (true) // Bucle infinito hasta que se ingrese un valor válido
+            {
+                Console.Write("\tOpción: ");
+                if (int.TryParse(Console.ReadLine(), out opcion) && opcion >= 0 && opcion <= 3)
+                {
+                    return opcion; // Retorna la opción válida
+                }
+                Console.WriteLine("\tEntrada inválida. Ingrese una opción entre 0 y 3.");
+            }
+        }
+        public static int PedirDatoMenuGrupo()
+        {
+            int opcion;
+            Console.WriteLine("\n\tIngrese una opcion entre 1 y 4.\n\tIngrese 0 para salir.");
+            while (true) // Bucle infinito hasta que se ingrese un valor válido
+            {
+                Console.Write("\tOpción: ");
+                if (int.TryParse(Console.ReadLine(), out opcion) && opcion >= 0 && opcion <= 4)
+                {
+                    return opcion; // Retorna la opción válida
+                }
+                Console.WriteLine("\tEntrada inválida. Ingrese una opción entre 0 y 4.");
+            }
+        }
+        public static int PedirDatoSTATS()
+        {
+            int opcion;
+            Console.WriteLine("\n\tIngrese una opcion entre 1 y 10.\n\tIngrese 0 para salir.");
+            while (true) // Bucle infinito hasta que se ingrese un valor válido
+            {
+                Console.Write("\tOpción: ");
+                if (int.TryParse(Console.ReadLine(), out opcion) && opcion >= 0 && opcion <= 10)
+                {
+                    return opcion; // Retorna la opción válida
+                }
+                Console.WriteLine("\tEntrada inválida. Ingrese una opción entre 0 y 10.");
             }
         }
         public static string LeerString(string mensaje)
@@ -60,6 +132,7 @@ namespace Proyecto_F5_GTS
             Console.WriteLine(mensaje);
             while (true)
             {
+                Console.Write("\tOpcion: ");
                 string lectura = Console.ReadLine()?.Trim();
                 if (int.TryParse(lectura, out conversion))
                 {
