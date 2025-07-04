@@ -91,7 +91,7 @@ namespace Proyecto_F5_GTS
                 return false;
             else
             {
-                jugador.CargarPosicion();
+                jugador.POSICION = jugador.CargarPosicion();
                 jugador.CalcularCalificacion();
                 return true;
             }
