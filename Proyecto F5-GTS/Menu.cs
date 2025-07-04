@@ -22,26 +22,24 @@ namespace Proyecto_F5_GTS
             Console.WriteLine("\n\t[GRUPOS]");
             Console.WriteLine("\n\t    [3] Listar Grupos.");
             Console.WriteLine("\n\t    [4] Crear Grupo.");
-            Console.WriteLine("\n\t    [5] Agregar Jugador a Grupo.");//Ira en otro menu
-            Console.WriteLine("\n\t    [8] Eliminar Jugador de Grupo.");//Ira en otro menu
-            Console.WriteLine("\n\t    [9] Eliminar Grupo.");//Ira en otro menu
             Console.WriteLine("\n\t[0] Salir y guardar.");
             return PedirDatoMenu();
         }
         public static int MostrarMenuJugador()
         {
             Console.WriteLine("\n\t    [1] Modificar nombre.");
-            Console.WriteLine("\n\t    [2] Modificar estadistica.");
-            Console.WriteLine("\n\t    [3] Eliminar Jugador.");
+            Console.WriteLine("\n\t    [2] Modificar posicion.");//SEGUIR DESDE ACA
+            Console.WriteLine("\n\t    [3] Modificar estadistica.");
+            Console.WriteLine("\n\t    [4] Eliminar Jugador.");
             Console.WriteLine("\n\t    [0] Volver atras.");
             return PedirDatoMenuJugador();
         }
         public static int MostrarMenuGrupo()
         {
             Console.WriteLine("\n\t    [1] Cambiar nombre.");
-            Console.WriteLine("\n\t    [2] Agregar Jugador a Grupo.");//Ira en otro menu
-            Console.WriteLine("\n\t    [3] Eliminar Jugador de Grupo.");//Ira en otro menu
-            Console.WriteLine("\n\t    [4] Eliminar Grupo.");//Ira en otro menu
+            Console.WriteLine("\n\t    [2] Agregar Jugador a Grupo.");
+            Console.WriteLine("\n\t    [3] Eliminar Jugador de Grupo.");
+            Console.WriteLine("\n\t    [4] Eliminar Grupo.");
             Console.WriteLine("\n\t    [0] Volver atras.");
             return PedirDatoMenuGrupo();
         }
@@ -60,7 +58,6 @@ namespace Proyecto_F5_GTS
             Console.WriteLine("\n\t    [0] Volver atras.");
             return PedirDatoSTATS();
         }
-
         //Retorna el valor de la opcion elegida
         public static int PedirDatoMenu()
         {
@@ -79,7 +76,7 @@ namespace Proyecto_F5_GTS
         public static int PedirDatoMenuJugador()
         {
             int opcion;
-            Console.WriteLine("\n\tIngrese una opcion entre 1 y 3.\n\tIngrese 0 para salir.");
+            Console.WriteLine("\n\tIngrese una opcion entre 1 y 4.\n\tIngrese 0 para salir.");
             while (true) // Bucle infinito hasta que se ingrese un valor válido
             {
                 Console.Write("\tOpción: ");
@@ -120,7 +117,7 @@ namespace Proyecto_F5_GTS
         }
         public static string LeerString(string mensaje)
         {
-            Console.WriteLine(mensaje);
+            Console.Write(mensaje);
             string lectura = Console.ReadLine();
             return lectura;
         }
@@ -171,6 +168,26 @@ namespace Proyecto_F5_GTS
             }
             return listaNumeros;
         }
+        public static int ValID (string mensaje, Dictionary<int, Jugador> idDiccionario)
+        {
+            int id;
+            bool valido = false;
+            do
+            {
+                Console.Write(mensaje);
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out id))
+                {
+                    if (id == 0 || idDiccionario.ContainsKey(id))                   
+                        valido = true;                   
+                    else                   
+                        Console.WriteLine("\tID no encontrado.");
+                }
+                else               
+                    Console.WriteLine("\tEntrada no válida. Ingrese un ID valido.");               
+            } while (!valido);
+            return id;
+        }
         //Validacion de Double
         public static double ValDouble(string mensaje)
         {
@@ -190,7 +207,7 @@ namespace Proyecto_F5_GTS
         public static void MostrarMensaje(string mensaje)
         {
             Console.WriteLine(mensaje);
-            Console.WriteLine("\tPresione una tecla para seguir.");
+            Console.Write("\tPresione una tecla para seguir.");
             Console.ReadKey();
             Console.Clear();
         }

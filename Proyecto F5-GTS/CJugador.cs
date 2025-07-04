@@ -20,7 +20,6 @@ namespace Proyecto_F5_GTS
             ("VEL" , 0), ("AGT" , 0), ("PAS" , 0), ("GMB" , 0), ("DEF" , 0),
             ("FIS" , 0), ("PEG" , 0), ("TIR" , 0), ("ATJ" , 0), ("REF" , 0)
         };
-
         //Propiedades R-W
         public int ID { get => _id; set => _id = value; }
         public string NOMBRE { get => _nombre; set => _nombre = value; }
@@ -42,7 +41,6 @@ namespace Proyecto_F5_GTS
         { "ATJ", "ATAJADA" },
         { "REF", "REFLEJO" }
     };
-
         //Constructor sin parametrizar
         public Jugador()
         {
@@ -56,7 +54,6 @@ namespace Proyecto_F5_GTS
                 ("FIS", 0), ("PEG", 0), ("TIR", 0), ("ATJ", 0), ("REF", 0) 
             };
         }
-
         //Constructor parcialmente parametrizado
         public Jugador (int id, string nombre)
         {
@@ -83,7 +80,6 @@ namespace Proyecto_F5_GTS
                 this.STATS[i] = stats[i];
             }
         }
-
         public void CargarStats()
         {
             for (int i = 0; i < STATS.Length; i++)
@@ -102,12 +98,11 @@ namespace Proyecto_F5_GTS
             }
             CalcularCalificacion();
         }
-
         public string CargarPosicion()
         {
             int opcion = 0;
             string posicion = "";
-            Console.Write("\n\tSeleccione la posicion:\n\t 1. Arquero.\n\t 2. Defensor.\n\t 3. Volante. \n\t 4. Delantero.\n");
+            Console.Write("\n\tSeleccione la posicion:\n\t 1. Arquero.\n\t 2. Defensor.\n\t 3. Volante. \n\t 4. Delantero.\n\tOpcion: ");
             do
             {
                 if(!int.TryParse(Console.ReadLine(),out opcion) || opcion < 1 || opcion > 4)
@@ -192,7 +187,6 @@ namespace Proyecto_F5_GTS
             }
             return false;
         }
-
         public string DarDatos()
         {
             // Construimos la información básica del jugador
@@ -206,11 +200,16 @@ namespace Proyecto_F5_GTS
             }
             return datos;
         }
-
         public string DarMenosDatos()
         {
             // Construimos la información básica del jugador
             string datos = $"\n\n\tID: {ID}\n\tNombre: {NOMBRE}\n\tPosicion: {POSICION}\n\tCalificacion: {CALIFICACION}\n\tPuntaje: {PUNTOTAL:F2}\n";
+            return datos;
+        }
+        public string DarDatosGrupo()
+        {
+            // Construimos la información básica del jugador
+            string datos = $"\n\n\t\tID: {ID}\n\t\tNombre: {NOMBRE}\n\t\tPosicion: {POSICION}\n\t\tCalificacion: {CALIFICACION}\n\t\tPuntaje: {PUNTOTAL:F2}\n";
             return datos;
         }
     }

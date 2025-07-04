@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Proyecto F5-GTS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e89f1437496dd4de5e1c652f71871c4d6dd8a66f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e8b40d99eafbb64373241f130330615021093534")]
 [assembly: System.Reflection.AssemblyProductAttribute("Proyecto F5-GTS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Proyecto F5-GTS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

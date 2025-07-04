@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <grupos>
   <grupo>
-    <id>0</id>
-    <nombre>Miercoles 22Hs</nombre>
-    <count>1</count>
+    <id>1</id>
+    <nombre>Fulbo Miercoles 21 Hs</nombre>
+    <count>2</count>
     <jugadores>
       <id>1</id>
+      <id>2</id>
     </jugadores>
   </grupo>
 </grupos>

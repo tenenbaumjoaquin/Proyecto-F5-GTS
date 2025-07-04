@@ -12,23 +12,15 @@ namespace Proyecto_F5_GTS
     //Controlador STATIC para invocar las funciones sin instanciar
     static class Controlador
     {
+        //FUNCIONES JUGADOR
         //Metodo que retorna el ultimo id en la lista de jugadores
-        public static int UltimoID(List<Jugador> listaJugadores)
+        public static int UltimoIDJugador(List<Jugador> listaJugadores)
         {
             if (listaJugadores != null && listaJugadores.Count > 0)
                 return listaJugadores[listaJugadores.Count - 1].ID;
             else
                 return 0;
         }
-        //Retorna el ultimo id en la lista de grupos
-        public static int UltimoID(List<Grupo> listaGrupos)
-        {
-            if (listaGrupos != null && listaGrupos.Count > 0)
-                return listaGrupos[listaGrupos.Count - 1].ID;
-            else
-                return -1;
-        }
-        //Metodo de busqueda en lista, para corroborar que el elemento a insertar no se encuentra en la lista
         public static Jugador Buscar(List<Jugador> listaJugadores, string nombre)
         {
             int indice = listaJugadores.IndexOf(new Jugador(nombre));
@@ -41,14 +33,7 @@ namespace Proyecto_F5_GTS
                 return listaJugadores[indice];
             }
         }
-        public static Grupo Buscar(List<Grupo> listaGrupo, string nombre)
-        {
-            int indice = listaGrupo.IndexOf(new Grupo(nombre));
-            if (indice == -1)
-                return null;
-            else
-                return listaGrupo[indice];
-        }
+        //BUSCAR POR ID Y RETORNA EL JUGADOR
         public static Jugador BuscarId(List<Jugador> listaJugadores, int ID)
         {
             foreach (Jugador jugador in listaJugadores)
@@ -58,21 +43,11 @@ namespace Proyecto_F5_GTS
             }
             return null;
         }
-
-        public static Grupo BuscarId(List<Grupo> listaGrupo, int ID)
+        public static bool CrearJugador(string nombre, List<Jugador> listaJugadores)
         {
-            foreach (Grupo grupo in listaGrupo)
+            if (Buscar(listaJugadores, nombre) == null)
             {
-                if (grupo.ID == ID)
-                    return grupo;
-            }
-            return null;
-        }
-        public static bool CrearJugador( string nombre, List<Jugador> listaJugadores )
-        {
-            if ( Buscar(listaJugadores, nombre) == null)
-            {
-                int id = UltimoID(listaJugadores)+1;
+                int id = UltimoIDJugador(listaJugadores) + 1;
                 Jugador newJugador = new Jugador(id, nombre);
                 listaJugadores.Add(newJugador);
                 return true;
@@ -80,53 +55,12 @@ namespace Proyecto_F5_GTS
             Menu.MostrarMensaje("\n\tJugador ya registrado con ese nombre.");
             return false;
         }
-        public static bool CrearGrupo ( string nombre, List<Grupo> listaGrupos )
-        {
-            if( Buscar(listaGrupos, nombre) == null)
-            {
-                int id = UltimoID(listaGrupos)+1;
-                Grupo grupo = new Grupo(id, nombre);
-                listaGrupos.Add(grupo);
-                return true;
-            }
-            Menu.MostrarMensaje("\n\tGrupo ya registrado con ese nombre.");
-            return false;
-        }
-
-        public static bool AgregarJugadorAGrupo( List<int> idsJugadores, int idGrupo, List<Grupo> listaGrupos)
-        {
-            Grupo grupoSeleccionado = BuscarId(listaGrupos, idGrupo);
-            if ( grupoSeleccionado != null)
-            {
-                foreach(int id in idsJugadores)
-                {
-                    grupoSeleccionado.AgregarJugador(id);
-                }
-                Console.WriteLine("\tJugadores ingresados correctamente.");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("\nGrupo no encontrado.");
-                return false;
-            }
-        }
-        public static bool CambiarNombreJugador ( List<Jugador> listaJugadores, int ID, string nuevoNombre)
+        public static bool CambiarNombreJugador(List<Jugador> listaJugadores, int ID, string nuevoNombre)
         {
             Jugador jugador = listaJugadores.FirstOrDefault(j => j.ID == ID);
             if (jugador != null)
             {
                 jugador.NOMBRE = nuevoNombre;
-                return true; 
-            }
-            return false;
-        }
-        public static bool CambiarNombreGrupo(List<Grupo> listaGrupo, int ID, string nuevoNombre)
-        {
-            Grupo grupo = listaGrupo.FirstOrDefault(g => g.ID == ID);
-            if (grupo != null)
-            {
-                grupo.NOMBRE = nuevoNombre;
                 return true;
             }
             return false;
@@ -150,16 +84,134 @@ namespace Proyecto_F5_GTS
                 return false;
             }
         }
-        /*public static bool modificarJugador( int idJugador, List<Jugador> listaJugadores)
+        public static bool ModificarPosicion(List<Jugador> listaJugadores, int ID)
         {
-
-        }*/
-
+            Jugador jugador = listaJugadores.FirstOrDefault(j =>j.ID == ID);
+            if (jugador == null)
+                return false;
+            else
+            {
+                jugador.CargarPosicion();
+                jugador.CalcularCalificacion();
+                return true;
+            }
+        }
+        //FUNCIONES DE GRUPO
+        //Retorna el ultimo id en la lista de grupos
+        public static int UltimoID(List<Grupo> listaGrupos)
+        {
+            if (listaGrupos != null && listaGrupos.Count > 0)
+                return listaGrupos[listaGrupos.Count - 1].ID;
+            else
+                return 0;
+        }
+        public static Grupo Buscar(List<Grupo> listaGrupo, string nombre)
+        {
+            int indice = listaGrupo.IndexOf(new Grupo(nombre));
+            if (indice == -1)
+                return null;
+            else
+                return listaGrupo[indice];
+        }
+        public static Grupo BuscarId(List<Grupo> listaGrupo, int ID)
+        {
+            foreach (Grupo grupo in listaGrupo)
+            {
+                if (grupo.ID == ID)
+                    return grupo;
+            }
+            return null;
+        }
+        public static bool EliminarJugador( List<Jugador> listaJugadores, List<Grupo> listaGrupos, int ID)
+        {
+            Jugador jugadorAEliminar = BuscarId(listaJugadores, ID);
+            if( jugadorAEliminar != null)
+            {
+                foreach (Grupo grupo in listaGrupos)
+                {
+                    if (grupo.JUGADORES.Contains(ID))
+                    {
+                        grupo.JUGADORES.Remove(ID);
+                        grupo.COUNT--;
+                    }
+                }
+                listaJugadores.Remove(jugadorAEliminar);
+                return true;
+            }
+            Menu.MostrarMensaje("\n\tJugador no encontrado.");
+            return false;
+        }
+        public static bool CrearGrupo ( string nombre, List<Grupo> listaGrupos )
+        {
+            if( Buscar(listaGrupos, nombre) == null)
+            {
+                int id = UltimoID(listaGrupos)+1;
+                Grupo grupo = new Grupo(id, nombre);
+                listaGrupos.Add(grupo);
+                return true;
+            }
+            Menu.MostrarMensaje("\n\tGrupo ya registrado con ese nombre.");
+            return false;
+        }
+        public static bool EliminarGrupo (List<Grupo> listaGrupos, int ID)
+        {
+            Grupo grupoAEliminar = BuscarId(listaGrupos, ID);
+            if( grupoAEliminar != null)
+            {
+                listaGrupos.Remove(grupoAEliminar);
+                return true;
+            }
+            Menu.MostrarMensaje("\n\tJugador no encontrado.");
+            return false ;
+        }
+        public static bool AgregarJugadorAGrupo( List<int> idsJugadores, int idGrupo, List<Grupo> listaGrupos)
+        {
+            Grupo grupoSeleccionado = BuscarId(listaGrupos, idGrupo);
+            if ( grupoSeleccionado != null)
+            {
+                foreach(int id in idsJugadores)
+                {
+                    grupoSeleccionado.AgregarJugador(id);
+                }
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\nGrupo no encontrado.");
+                return false;
+            }
+        }
+        public static bool EliminarJugadorDeGrupo( List<int> idsJugadores, int idGrupo, List<Grupo> listaGrupos)
+        {
+            Grupo grupoSeleccionado = BuscarId(listaGrupos, idGrupo) ;
+            if (grupoSeleccionado != null)
+            {
+                foreach(int id in idsJugadores)
+                    grupoSeleccionado.EliminarJugador(id) ;
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\nGrupo no encontrado.");
+                return false;
+            }
+        }   
+        public static bool CambiarNombreGrupo(List<Grupo> listaGrupo, int ID, string nuevoNombre)
+        {
+            Grupo grupo = listaGrupo.FirstOrDefault(g => g.ID == ID);
+            if (grupo != null)
+            {
+                grupo.NOMBRE = nuevoNombre;
+                return true;
+            }
+            return false;
+        }
+        //FUNCIONES DE LECTURA Y GUARDADO
         public static bool CargarJugador(string nombre, string posicion, string calificacion, double puntotal, (string nombre, int puntuacion)[] stats, List<Jugador> listaJugadores)
         {
             if (Buscar(listaJugadores, nombre) == null)
             {
-                int id = UltimoID(listaJugadores);
+                int id = UltimoIDJugador(listaJugadores);
                 Jugador newJugador = new Jugador(id, nombre, posicion, calificacion, puntotal, stats);
                 listaJugadores.Add(newJugador);
                 return true;
@@ -167,10 +219,7 @@ namespace Proyecto_F5_GTS
             Menu.MostrarMensaje("\n\tJugador ya registrado con ese nombre.");
             return false;
         }
-        public static bool CargarGrupo(string nombre, string direccion, string horario, List<Grupo> listaGrupos)
-        {
-            return true;
-        }
+        
         public static string GuardarGrupoXML( string archivo, List<Grupo> grupos)
         {
             try
@@ -287,7 +336,6 @@ namespace Proyecto_F5_GTS
                 return ex.Message;
             }
         }
-
         public static string LeerJugadorXML (string archivo, List<Jugador> listaJugadores)
         {
             try

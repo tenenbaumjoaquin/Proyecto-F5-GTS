@@ -78,7 +78,6 @@ namespace Proyecto_F5_GTS
                 COUNT--;
             }
         }
-
         public string DarDatos(Dictionary<int, Jugador> dicJugadores)
         {
             string datos = $"\n\n\tID: {ID}\n\tNombre del grupo: {NOMBRE}\n";
@@ -92,10 +91,16 @@ namespace Proyecto_F5_GTS
                 {
                     if (dicJugadores.TryGetValue(id, out Jugador jugador)) // Búsqueda en O(1)
                     {
-                        datos += jugador.DarMenosDatos() + "\n";
+                        datos += jugador.DarDatosGrupo() + "\n";
                     }
                 }
             } 
+            return datos;
+        }
+        public string DarMenosDatos()
+        {
+            string datos = $"\n\n\tID: {ID}\n\tNombre del grupo: {NOMBRE}\n";
+            datos += $"\tCantidad de jugadores: {COUNT}\n";
             return datos;
         }
     }
