@@ -12,7 +12,9 @@ namespace Proyecto_F5_GTS
     class Program
     {
         static void Main(string[] args)
-        {
+        {                       
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.White;          
             List<Jugador> listaJugadores = new List<Jugador>();
             List<Grupo> listaGrupos = new List<Grupo>();
             CargarDatosXML(listaJugadores, listaGrupos);
@@ -75,7 +77,13 @@ namespace Proyecto_F5_GTS
                                     //Eliminar Jugador
                                     case 4:
                                         resultado = EliminarJugador(listaJugadores, listaGrupos, idJugador);
-                                        ActualizarDiccionario(dicJugadores, listaJugadores);
+                                        if (resultado)
+                                        {
+                                            Menu.MostrarMensaje("\tJugador eliminado.");
+                                            ActualizarDiccionario(dicJugadores, listaJugadores);
+                                        }
+                                        else
+                                            Menu.MostrarMensaje("\tError al eliminar jugador.");
                                         break;
                                 }
                             }
@@ -104,7 +112,7 @@ namespace Proyecto_F5_GTS
                             Console.WriteLine(MostrarListaGrupos(listaGrupos));
                             //Menu.MostrarMensaje("\tLista desplegada.");
                             idGrupo = Menu.ValInt("\n\tSeleccione el ID de un Grupo o 0 para volver.");
-                            if (idGrupo != -1)
+                            if (idGrupo != 0)
                             {
                                 Console.Clear();
                                 Grupo grupoAModificar = Controlador.BuscarId(listaGrupos, idGrupo);
@@ -235,6 +243,7 @@ namespace Proyecto_F5_GTS
         public static bool AgregarJugadorAGrupo(List<Jugador> listaJugadores, List<Grupo> listaGrupos, Dictionary<int, Jugador> idDiccionario, int grupoID)
         {
             Console.WriteLine("\n\tSe mostrara la lista de jugadores.\n");
+            //REVISAR ANTES DE MOSTRAR LA LISTA; PARA EVITAR MOSTRAR AQUELLOS QUE YA SE HAYAN EN EL GRUPO
             Console.WriteLine(MostrarListado(listaJugadores));
             Console.Write("\n\tIngrese el ID del jugador que desea agregar.\n\tSi desea agregar mas de un jugador ingrese los ID separados con ',' \n\tID's: ");
             string IDS = Console.ReadLine();
@@ -259,6 +268,13 @@ namespace Proyecto_F5_GTS
 
             }
             return lista;
+        }
+        /*FUNCION CLAVE DEL SISTEMA, DEBE TOMAR LOS JUGADORES GUARDADOS EN EL GRUPO
+         Y GENERAR DOS LISTAS DE IGUAL CANTIDAD DE JUGADORES
+        Y ESTAR LO MAS PAREJO POSIBLE*/
+        public static void GenerarGruposEquilibrados(List<Grupo> listaGrupos, Dictionary<int, Jugador> dicJugadores)
+        {
+
         }
         public static string MostrarListaGrupos(List<Grupo> listaGrupos)
         {

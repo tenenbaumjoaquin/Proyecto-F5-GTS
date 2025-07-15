@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto_F5_GTS
 {
-    static class Menu
+    static class Menu 
     {
         public static int MostrarMenu()
         {
@@ -80,7 +80,7 @@ namespace Proyecto_F5_GTS
             while (true) // Bucle infinito hasta que se ingrese un valor válido
             {
                 Console.Write("\tOpción: ");
-                if (int.TryParse(Console.ReadLine(), out opcion) && opcion >= 0 && opcion <= 3)
+                if (int.TryParse(Console.ReadLine(), out opcion) && opcion >= 0 && opcion <= 4)
                 {
                     return opcion; // Retorna la opción válida
                 }

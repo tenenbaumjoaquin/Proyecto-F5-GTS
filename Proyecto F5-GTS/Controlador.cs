@@ -50,6 +50,7 @@ namespace Proyecto_F5_GTS
                 int id = UltimoIDJugador(listaJugadores) + 1;
                 Jugador newJugador = new Jugador(id, nombre);
                 listaJugadores.Add(newJugador);
+                newJugador.DarMenosDatos();
                 return true;
             }
             Menu.MostrarMensaje("\n\tJugador ya registrado con ese nombre.");

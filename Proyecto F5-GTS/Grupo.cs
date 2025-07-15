@@ -99,7 +99,7 @@ namespace Proyecto_F5_GTS
         }
         public string DarMenosDatos()
         {
-            string datos = $"\n\n\tID: {ID}\n\tNombre del grupo: {NOMBRE}\n";
+            string datos = $"\n\n\tID: {ID}\n\tNombre del grupo:\n\t {NOMBRE}\n";
             datos += $"\tCantidad de jugadores: {COUNT}\n";
             return datos;
         }
