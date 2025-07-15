@@ -30,7 +30,7 @@ namespace Proyecto_F5_GTS
                     case 1:
                         if (MostrarListado(listaJugadores) != "")
                         {
-                            Console.WriteLine(MostrarListado(listaJugadores));
+                            Console.WriteLine(MostrarListaFicha(listaJugadores));
                             //Menu.MostrarMensaje("\tLista desplegada.")
                             idJugador = Menu.ValID("\n\tSeleccione el ID de un jugador o 0 para volver.\n\tOpcion: ", dicJugadores);
                             if (idJugador != 0)
@@ -132,7 +132,7 @@ namespace Proyecto_F5_GTS
                                     case 2:
                                         resultado = AgregarJugadorAGrupo(listaJugadores, listaGrupos, dicJugadores, idGrupo);
                                         if (resultado)
-                                            Menu.MostrarMensaje("\tJugadores agregados correctamente.");
+                                            Menu.MostrarMensaje("\tJugador agregado con exito.");
                                         else
                                             Menu.MostrarMensaje("\tError al agregar jugadores.");
                                         break;
@@ -216,15 +216,27 @@ namespace Proyecto_F5_GTS
             foreach (var j in lista)
                 dic[j.ID] = j;
         }
+       
         public static string MostrarListado(List<Jugador> listaJugadores)
         {
             string lista = "";
             foreach (Jugador jugador in listaJugadores)
             {
-                lista += jugador.DarMenosDatos();
+                lista += jugador.FichaJugador();
             }
             return lista;
         }
+        
+        public static string MostrarListaFicha(List<Jugador> listaJugadores)
+        {
+            string lista = "";
+            foreach (Jugador jugador in listaJugadores)
+            {
+                lista += jugador.FichaJugador();
+            }
+            return lista;
+        }
+
         //FUNCIONES GRUPO
         public static bool CrearGrupo(List<Grupo> listaGrupos)
         {
@@ -242,21 +254,52 @@ namespace Proyecto_F5_GTS
         }
         public static bool AgregarJugadorAGrupo(List<Jugador> listaJugadores, List<Grupo> listaGrupos, Dictionary<int, Jugador> idDiccionario, int grupoID)
         {
-            Console.WriteLine("\n\tSe mostrara la lista de jugadores.\n");
-            //REVISAR ANTES DE MOSTRAR LA LISTA; PARA EVITAR MOSTRAR AQUELLOS QUE YA SE HAYAN EN EL GRUPO
-            Console.WriteLine(MostrarListado(listaJugadores));
-            Console.Write("\n\tIngrese el ID del jugador que desea agregar.\n\tSi desea agregar mas de un jugador ingrese los ID separados con ',' \n\tID's: ");
+            // Buscar el grupo correspondiente
+            Grupo grupo = listaGrupos.FirstOrDefault(g => g.ID == grupoID);
+            if (grupo == null)
+            {
+                Console.WriteLine("\n\tGrupo no encontrado.");
+                return false;
+            }
+            // Filtrar jugadores que no estén ya en el grupo
+            var jugadoresDisponibles = listaJugadores
+                .Where(j => !grupo.JUGADORES.Contains(j.ID))
+                .ToList();
+            if (jugadoresDisponibles.Count == 0)
+            {
+                Console.WriteLine("\n\tNo hay jugadores disponibles para agregar.");
+                return false;
+            }
+            Console.WriteLine("\n\tSe mostrará la lista de jugadores disponibles para agregar.\n");
+            Console.WriteLine(MostrarListado(jugadoresDisponibles));
+
+            Console.Write("\n\tIngrese el ID del jugador que desea agregar.\n\tSi desea agregar más de un jugador ingrese los ID separados con ',' \n\tID's: ");
             string IDS = Console.ReadLine();
-            List<int> listaId = Menu.ValIDS(IDS, idDiccionario);
+            List<int> listaId = Menu.ValIDS(IDS, jugadoresDisponibles);
+
             return Controlador.AgregarJugadorAGrupo(listaId, grupoID, listaGrupos);
         }
         public static bool EliminarJugadorDeGrupo(List<Jugador> listaJugadores, List<Grupo> listaGrupos, Dictionary<int, Jugador> idDiccionario, int grupoID)
         {
-            Console.WriteLine("\n\tSe mostrara la lista de jugadores.\n");
-            Console.WriteLine(MostrarListaGrupos(listaGrupos, idDiccionario));
-            Console.Write("\n\tIngrese el ID del jugador que desea eliminar del grupo.\n\tSi desea eliminar mas de un jugador ingrese los ID separados con ',' \n\tID's: ");
+            Grupo grupo = listaGrupos.FirstOrDefault(g => g.ID == grupoID);
+            if (grupo == null)
+            {
+                Console.WriteLine("\n\tGrupo no encontrado.");
+                return false;
+            }
+            var jugadoresEnGrupo = listaJugadores
+                .Where(j => grupo.JUGADORES.Contains(j.ID))
+                .ToList();
+            if (jugadoresEnGrupo.Count == 0)
+            {
+                Console.WriteLine("\n\tNo hay jugadores en este grupo.");
+                return false;
+            }
+            Console.WriteLine("\n\tSe mostrará la lista de jugadores del grupo.\n");
+            Console.WriteLine(MostrarListado(jugadoresEnGrupo));
+            Console.Write("\n\tIngrese el ID del jugador que desea eliminar del grupo.\n\tSi desea eliminar más de uno, ingrese los IDs separados por ',' \n\tID's: ");
             string IDS = Console.ReadLine();
-            List<int> listaId = Menu.ValIDS(IDS, idDiccionario);
+            List<int> listaId = Menu.ValIDS(IDS, jugadoresEnGrupo);
             return Controlador.EliminarJugadorDeGrupo(listaId, grupoID, listaGrupos);
         }
         public static string MostrarListaGrupos(List<Grupo> listaGrupos, Dictionary<int, Jugador> dicJugadores)
@@ -272,16 +315,17 @@ namespace Proyecto_F5_GTS
         /*FUNCION CLAVE DEL SISTEMA, DEBE TOMAR LOS JUGADORES GUARDADOS EN EL GRUPO
          Y GENERAR DOS LISTAS DE IGUAL CANTIDAD DE JUGADORES
         Y ESTAR LO MAS PAREJO POSIBLE*/
-        public static void GenerarGruposEquilibrados(List<Grupo> listaGrupos, Dictionary<int, Jugador> dicJugadores)
+        public static bool GenerarGruposEquilibrados(Grupo grupo, Dictionary<int, Jugador> dicJugadores)
         {
-
+            Menu.MostrarMensaje("\n\tSe procedera a generar los equipos.");
+            return Controlador.GenerarEquiposEquilibrados(grupo, dicJugadores);
         }
         public static string MostrarListaGrupos(List<Grupo> listaGrupos)
         {
             string lista = "";
             foreach (Grupo grupo in listaGrupos)
             {
-                lista += grupo.DarMenosDatos();
+                lista += grupo.FichaGrupo();
 
             }
             return lista;

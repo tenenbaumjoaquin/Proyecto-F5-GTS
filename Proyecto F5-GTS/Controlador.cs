@@ -165,16 +165,29 @@ namespace Proyecto_F5_GTS
             Menu.MostrarMensaje("\n\tJugador no encontrado.");
             return false ;
         }
-        public static bool AgregarJugadorAGrupo( List<int> idsJugadores, int idGrupo, List<Grupo> listaGrupos)
+        public static bool AgregarJugadorAGrupo(List<int> idsJugadores, int idGrupo, List<Grupo> listaGrupos)
         {
+            bool seAgregoAlMenosUno = false;
             Grupo grupoSeleccionado = BuscarId(listaGrupos, idGrupo);
-            if ( grupoSeleccionado != null)
+
+            if (grupoSeleccionado != null)
             {
-                foreach(int id in idsJugadores)
+                foreach (int id in idsJugadores)
                 {
-                    grupoSeleccionado.AgregarJugador(id);
+                    bool agregado = grupoSeleccionado.AgregarJugador(id);
+
+                    if (agregado)
+                    {
+                        Console.WriteLine($"\n\tJugador con ID {id} agregado al grupo.");
+                        seAgregoAlMenosUno = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\n\tJugador con ID {id} ya está en el grupo o no se pudo agregar.");
+                    }
                 }
-                return true;
+
+                return seAgregoAlMenosUno;
             }
             else
             {
@@ -207,6 +220,97 @@ namespace Proyecto_F5_GTS
             }
             return false;
         }
+        /*
+        FUNCION CLAVE DEL SISTEMA, falta desarrollarla y probarla,
+        El primer punto de la funcion es definir los arqueros de cada equipo, luego de ahi
+        Tocara ir probando y viendo la manera de hacerlo aleatorio y balanceado.
+         */
+        public static bool GenerarEquiposEquilibrados(Grupo grupo, Dictionary<int, Jugador> dicJugadores)
+        {
+            if (grupo.COUNT != 10 && grupo.COUNT != 12 && grupo.COUNT != 14)
+            {
+                Menu.MostrarMensaje("\n\tNo hay suficientes jugadores.");
+                return false;
+            }
+            List<int> equipo1 = new List<int>();
+            List<int> equipo2 = new List<int>();
+            HashSet<int> asignados = new HashSet<int>(); // Se define siempre
+
+            // Buscar arqueros reales
+            var arqueros = grupo.JUGADORES
+                .Select(id => dicJugadores[id])
+                .Where(j => j.POSICION == "ARQ")
+                .OrderByDescending(j => j.PUNTOTAL)
+                .ToList();
+
+            if (arqueros.Count >= 2)
+            {
+                equipo1.Add(arqueros[0].ID);
+                equipo2.Add(arqueros[1].ID);
+                asignados.Add(arqueros[0].ID);
+                asignados.Add(arqueros[1].ID);
+            }
+            else
+            {
+                foreach (var j in arqueros)
+                    asignados.Add(j.ID);
+
+                var mejoresAtajada = grupo.JUGADORES
+                    .Select(id => dicJugadores[id])
+                    .Where(j => !asignados.Contains(j.ID))
+                    .OrderByDescending(j => j.STATS.First(s => s._nombre == "ATJ")._puntuacion)
+                    .Take(2 - arqueros.Count)
+                    .ToList();
+
+                var arquerosAsignados = arqueros.Concat(mejoresAtajada).ToList();
+
+                if (arquerosAsignados.Count < 2)
+                {
+                    Console.WriteLine("\n\tNo se encontraron suficientes jugadores con buena atajada para formar 2 arqueros.");
+                    return false;
+                }
+
+                equipo1.Add(arquerosAsignados[0].ID);
+                equipo2.Add(arquerosAsignados[1].ID);
+                asignados.Add(arquerosAsignados[0].ID);
+                asignados.Add(arquerosAsignados[1].ID);
+            }
+
+            // Jugadores restantes
+            var jugadoresRestantes = grupo.JUGADORES
+                .Where(id => !asignados.Contains(id))
+                .Select(id => dicJugadores[id])
+                .OrderByDescending(j => j.PUNTOTAL)
+                .ToList();
+
+            // Reparto alternado
+            bool turnoEquipo1 = true;
+            foreach (var jugador in jugadoresRestantes)
+            {
+                if (turnoEquipo1)
+                    equipo1.Add(jugador.ID);
+                else
+                    equipo2.Add(jugador.ID);
+
+                turnoEquipo1 = !turnoEquipo1;
+            }
+
+            // Acá podrías asignar los equipos al grupo, mostrarlos o usarlos según tu diseño
+            Console.WriteLine("\n\tEquipos generados exitosamente.");
+            return true;
+        }
+
+        public static void MostrarEquipo1 (Grupo grupo, Dictionary<int, Jugador> dicJugadores)
+        {
+
+        }
+        public static void MostrarEquipo2(Grupo grupo, Dictionary<int, Jugador> dicJugadores)
+        {
+
+        }
+
+
+
         //FUNCIONES DE LECTURA Y GUARDADO
         public static bool CargarJugador(string nombre, string posicion, string calificacion, double puntotal, (string nombre, int puntuacion)[] stats, List<Jugador> listaJugadores)
         {
@@ -282,7 +386,6 @@ namespace Proyecto_F5_GTS
             //Y sino informar el error
             try
             {
-
                 XmlDocument xmlDoc = new XmlDocument();//Crea un nuevo archvio XML
                 XmlDeclaration xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);//Declara el formato del archivo
                 xmlDoc.AppendChild(xmlDeclaration); //agrega la declaracion al archivo
@@ -325,10 +428,8 @@ namespace Proyecto_F5_GTS
                         statsElement.AppendChild(statElement);
                     }
                     jugadorElement.AppendChild(statsElement);
-
                     rootElement.AppendChild(jugadorElement); //agrega el objeto al la raiz del archivo
                 }
-
                 xmlDoc.Save(archivo); //Guarda el archivo con el nombre transferido a la funcion
                 return "ok"; //Retorna ok
             }

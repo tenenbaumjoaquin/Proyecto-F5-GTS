@@ -3,10 +3,17 @@
   <grupo>
     <id>1</id>
     <nombre>Fulbo Miercoles 21 Hs</nombre>
-    <count>2</count>
+    <count>9</count>
     <jugadores>
       <id>1</id>
       <id>2</id>
+      <id>8</id>
+      <id>3</id>
+      <id>10</id>
+      <id>6</id>
+      <id>5</id>
+      <id>9</id>
+      <id>7</id>
     </jugadores>
   </grupo>
 </grupos>

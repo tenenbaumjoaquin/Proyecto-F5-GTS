@@ -61,21 +61,32 @@ namespace Proyecto_F5_GTS
             this._jugadores = new List<int>(ids);
 
         }
-        public void AgregarJugador(int jugadorId)
+        public bool AgregarJugador(int jugadorId)
         {
             if (!this.JUGADORES.Contains(jugadorId))
             {
                 this.JUGADORES.Add(jugadorId);
                 COUNT++;
+                return true;
             }
-            else Console.WriteLine("\n\tJugador ya en grupo.");
+            else 
+            {
+                Console.WriteLine("\n\tJugador ya en grupo.");
+                return false;
+            }
         }
-        public void EliminarJugador(int jugadorId)
+        public bool EliminarJugador(int jugadorId)
         {
             if (this.JUGADORES.Contains(jugadorId))
             {
                 this.JUGADORES.Remove(jugadorId);
                 COUNT--;
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\n\tERROR: el jugador no se haya en el grupo.");
+                return false;
             }
         }
         public string DarDatos(Dictionary<int, Jugador> dicJugadores)
@@ -91,17 +102,25 @@ namespace Proyecto_F5_GTS
                 {
                     if (dicJugadores.TryGetValue(id, out Jugador jugador)) // Búsqueda en O(1)
                     {
-                        datos += jugador.DarDatosGrupo() + "\n";
+                        datos += jugador.FichaJugador();
                     }
                 }
             } 
             return datos;
         }
-        public string DarMenosDatos()
+        public string FichaGrupo()
         {
-            string datos = $"\n\n\tID: {ID}\n\tNombre del grupo:\n\t {NOMBRE}\n";
-            datos += $"\tCantidad de jugadores: {COUNT}\n";
-            return datos;
+            int anchoNombre = NOMBRE.Length;
+            int ancho = Math.Max(anchoNombre + 8, 30);
+            string borde = new string('*', ancho);
+            string nombreCentrado = $"*{NOMBRE.Center(ancho - 2)}*";
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine($"\n\t{borde}");
+            sb.AppendLine($"\t{nombreCentrado}");
+            sb.AppendLine($"\t{borde}");
+            sb.AppendLine($"\t\t[ID]: {ID}");
+            sb.AppendLine($"\t\t[N° Jugadores]: {COUNT}");
+            return sb.ToString();
         }
     }
 }

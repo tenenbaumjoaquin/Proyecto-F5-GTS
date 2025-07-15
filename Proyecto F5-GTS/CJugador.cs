@@ -212,5 +212,21 @@ namespace Proyecto_F5_GTS
             string datos = $"\n\n\t\tID: {ID}\n\t\tNombre: {NOMBRE}\n\t\tPosicion: {POSICION}\n\t\tCalificacion: {CALIFICACION}\n\t\tPuntaje: {PUNTOTAL:F2}\n";
             return datos;
         }
+        public string FichaJugador()
+        {
+            int anchoNombre = NOMBRE.Length;
+            int ancho = Math.Max(anchoNombre + 8, 30);
+            string borde = new string('*', ancho);
+            string nombreCentrado = $"*{NOMBRE.Center(ancho - 2)}*";
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine($"\n\t{borde}");
+            sb.AppendLine($"\t{nombreCentrado}");
+            sb.AppendLine($"\t{borde}");
+            sb.AppendLine($"\t\t[ID]: {ID}");
+            sb.AppendLine($"\t\t[POSICION]: {POSICION}");
+            sb.AppendLine($"\t\t[CALIFICACION]: {CALIFICACION}");
+            sb.AppendLine($"\t\t[PUNTUACION]: {PUNTOTAL:N2}\n");
+            return sb.ToString();
+        }
     }
 }

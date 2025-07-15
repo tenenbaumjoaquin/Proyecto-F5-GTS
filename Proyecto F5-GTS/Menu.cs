@@ -142,28 +142,33 @@ namespace Proyecto_F5_GTS
             }
         }
         // Leer los ID
-        public static List<int> ValIDS( string input, Dictionary<int, Jugador> idDiccionario ) 
+        public static List<int> ValIDS(string input, List<Jugador> jugadoresDisponibles) 
         {
             List<int> listaNumeros = new List<int>();
+
             if (string.IsNullOrWhiteSpace(input))
                 return listaNumeros; // Devuelve una lista vacía si el input es nulo o vacío
+            
             string[] partes = input.Split(',');
+
+            HashSet<int> idsValidos = jugadoresDisponibles.Select(j => j.ID).ToHashSet();
+
             foreach (string parte in partes)
             {
                 if (int.TryParse(parte.Trim(), out int numero))
                 {
-                    if (idDiccionario.ContainsKey(numero)) // Verifica si el número está en el diccionario
+                    if (idsValidos.Contains(numero))
                     {
                         listaNumeros.Add(numero);
                     }
                     else
                     {
-                        Console.WriteLine($"Advertencia: '{numero}' no está en la lista de IDs válidos y se omitirá.");
+                        Console.WriteLine($"\t⚠️  ID '{numero}' no está entre los jugadores disponibles. Se omitirá.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"Advertencia: '{parte}' no es un número válido y se omitirá.");
+                    Console.WriteLine($"\t⚠️  '{parte}' no es un número válido. Se omitirá.");
                 }
             }
             return listaNumeros;
